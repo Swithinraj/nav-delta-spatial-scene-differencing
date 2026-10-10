@@ -1,4 +1,4 @@
-# NavDelta â€“ spatial scene differencing
+# NavDelta“ spatial scene differencing
 
 Compare **two phone recordings of the same room** and find out **what changed**.
 NavDelta puts both recordings into one shared 3D frame, finds objects that were
