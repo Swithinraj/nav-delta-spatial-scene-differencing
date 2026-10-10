@@ -1,0 +1,23 @@
+# Pinned dependencies (Python 3.12). Install PyTorch first, from the CUDA 12.6 index:
+#   pip install torch==2.13.0 torchvision==0.28.0 --index-url https://download.pytorch.org/whl/cu126
+#   pip install -r requirements.txt
+# (For a CPU-only machine use --index-url https://download.pytorch.org/whl/cpu instead.)
+# Model weights are not listed here: they download automatically on first use, at
+# pinned revisions, into the model cache (default ./.hf_cache).
+
+# geometry, alignment, change detection
+numpy==2.5.3
+scipy==1.18.1
+open3d==0.20.0
+opencv-python-headless==5.0.0.93
+pyquaternion==0.9.9
+matplotlib==3.11.2
+pillow==12.3.0
+
+# open-source models (SAM 2.1, Florence-2, SigLIP 2, SmolVLM2)
+transformers==5.19.0
+accelerate==1.15.0
+huggingface_hub==2.2.0
+safetensors==0.8.0
+tokenizers==0.23.3
+num2words==0.5.14

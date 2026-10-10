@@ -1,0 +1,20 @@
+# Recordings (shared separately, see docs/data-format.md)
+/data/*
+!/data/README.md
+/room_data/
+
+# Everything the pipeline generates
+/outputs/
+
+# Model weights (downloaded automatically on first run) and environments
+/.hf_cache*/
+/.venv*/
+__pycache__/
+*.egg-info/
+build/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

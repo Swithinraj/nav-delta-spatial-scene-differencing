@@ -1,0 +1,2368 @@
+{
+  "schema_version": "1.0.0",
+  "title": "Changes between two phone recordings of the same room",
+  "recordings": {
+    "before": "Myroomesh1",
+    "after": "Myroomesh2"
+  },
+  "common_frame": "Myroomesh1 PLY frame; metres; Z up; floor at z = -1.228 m",
+  "conventions": {
+    "left_right": "as seen when facing the window",
+    "distances": "gaps between voxel surfaces (5 cm voxels), about +-5 cm",
+    "rotation": "about the vertical axis, about +-10 deg",
+    "label_confident": "true when Florence-2 and SigLIP 2 name the same object"
+  },
+  "summary": "Between the two recordings, 3 objects were moved (suitcase, fan?, office chair), 1 piece of furniture was nudged (chest of drawers), 3 items no longer fill their spots (lamp?, bathroom cabinet?, plastic bag), 1 piece of furniture changed at its edge (desk) and 2 differences are depth-only (closet wall?, curtain). Depth-only means the object appears at that spot in both recordings' photos; only the measured depth differs. A question mark marks a label the two models did not agree on.",
+  "counts": {
+    "changed_at_landmark": 1,
+    "depth_only": 2,
+    "moved": 3,
+    "removed": 3,
+    "shifted": 1,
+    "small_changes": 1
+  },
+  "changes": [
+    {
+      "id": "SH1",
+      "type": "shifted",
+      "title": "chest of drawers nudged ~0.21 m",
+      "label": "drawer",
+      "label_confident": true,
+      "colour": "white",
+      "description": "The white chest of drawers was pushed towards the bed by about 0.21 m (±0.05 m). Only its back and front faces changed (0.58 m apart); the rest of it stayed in place, so it was nudged, not carried somewhere else. It stands on the floor next to the bed.",
+      "before": {
+        "object": "OR7",
+        "regions": [
+          "R9"
+        ],
+        "centroid_m": [
+          -0.927,
+          -0.689,
+          -0.792
+        ],
+        "bbox_min_m": [
+          -1.023,
+          -0.743,
+          -1.058
+        ],
+        "bbox_max_m": [
+          -0.873,
+          -0.643,
+          -0.508
+        ]
+      },
+      "after": {
+        "object": "OA6",
+        "regions": [
+          "A6"
+        ],
+        "centroid_m": [
+          -0.964,
+          -0.111,
+          -0.765
+        ],
+        "bbox_min_m": [
+          -1.273,
+          -0.143,
+          -1.108
+        ],
+        "bbox_max_m": [
+          -0.823,
+          -0.043,
+          -0.508
+        ]
+      },
+      "motion": {
+        "translation_m": [
+          -0.037,
+          0.578,
+          0.027
+        ],
+        "horizontal_distance_m": 0.579,
+        "rotation": {
+          "rotation_deg": null,
+          "note": "not determinable: shape fits equally at every yaw"
+        },
+        "footprint_axis_change_deg": null,
+        "after_axis_from_rotation": null,
+        "before_vs_nearest_wall": {
+          "wall": "wall x = -1.44 m",
+          "distance_to_wall_m": 0.52,
+          "long_axis_vs_wall_deg": 86.0,
+          "relation": "perpendicular"
+        },
+        "shift_estimate_m": 0.206,
+        "shift_uncertainty_m": 0.05,
+        "changed_layer_m": 0.106,
+        "shift_direction_xy": [
+          -0.064,
+          0.998
+        ],
+        "face_to_face_distance_m": 0.579,
+        "interpretation": "the removed and added parts are the trailing and leading faces of one larger object that stayed in place between them; it slid by about the thickness of the changed layers plus the surface tolerance, not by the face-to-face distance"
+      },
+      "places": {
+        "before": {
+          "text": "on the floor next to the bed",
+          "support": "floor",
+          "nearest_landmarks": [
+            {
+              "landmark": "mechanical fan",
+              "gap_m": 0.05
+            },
+            {
+              "landmark": "bed",
+              "gap_m": 0.11
+            },
+            {
+              "landmark": "shelf at (-1.1, +1.2)",
+              "gap_m": 1.23
+            }
+          ],
+          "nearest_wall": {
+            "wall": "right-hand wall",
+            "distance_m": 0.5
+          }
+        },
+        "after": {
+          "text": "on the floor next to the bed",
+          "support": "floor",
+          "nearest_landmarks": [
+            {
+              "landmark": "mechanical fan",
+              "gap_m": 0.05
+            },
+            {
+              "landmark": "bed",
+              "gap_m": 0.11
+            },
+            {
+              "landmark": "shelf at (-1.1, +1.2)",
+              "gap_m": 1.23
+            }
+          ],
+          "nearest_wall": {
+            "wall": "right-hand wall",
+            "distance_m": 0.5
+          }
+        }
+      },
+      "relations": null,
+      "evidence": {
+        "match_score": {
+          "shape_fit": 0.889,
+          "height_similarity": 1.0,
+          "colour_similarity": 0.889,
+          "colour_delta_e": 4.5,
+          "score": 0.915
+        },
+        "margin_to_next_best": 0.332,
+        "path_between": {
+          "samples": 176,
+          "occupied_in_both": 0.545,
+          "free_in_either": 0.307,
+          "unknown_in_both": 0.0
+        }
+      },
+      "arrow": {
+        "from": [
+          -0.927,
+          -0.689,
+          -0.792
+        ],
+        "to": [
+          -0.964,
+          -0.111,
+          -0.765
+        ]
+      },
+      "label_evidence": {
+        "agreement": "both models agree",
+        "florence2_votes": {
+          "drawer": 4,
+          "chest of drawers": 2,
+          "toilet": 1
+        },
+        "siglip2_top5": [
+          {
+            "label": "drawer",
+            "prob": 0.449
+          },
+          {
+            "label": "file cabinet",
+            "prob": 0.139
+          },
+          {
+            "label": "dresser",
+            "prob": 0.128
+          },
+          {
+            "label": "nightstand",
+            "prob": 0.113
+          },
+          {
+            "label": "cabinet",
+            "prob": 0.058
+          }
+        ]
+      },
+      "media": {
+        "before_photo": "viewer/gallery/SH1_before.jpg",
+        "after_photo": "viewer/gallery/SH1_after.jpg",
+        "pair_photo": "viewer/gallery/SH1_pair.jpg",
+        "before_frame": "216406268930",
+        "after_frame": "217128532944",
+        "viewpoint_distance_m": 0.25,
+        "viewpoint_angle_deg": 16.4,
+        "matched_viewpoint": true,
+        "point_clouds": [
+          "objects/OR7.ply",
+          "objects/OA6.ply"
+        ]
+      }
+    },
+    {
+      "id": "M1",
+      "type": "moved",
+      "title": "suitcase moved 0.54 m, turned ~100°",
+      "label": "suitcase",
+      "label_confident": true,
+      "colour": "blue",
+      "description": "The blue suitcase was moved 0.54 m and turned by roughly 100° (±10°). It was on the floor near the chest of drawers; it is now on the floor by the window wall. It is now further away from the chest of drawers: 1.15 m from it, compared with 0.45 m before. It is now closer to the window: 0.77 m from it, compared with 1.05 m before. Its long side used to be parallel to the right-hand wall (10° off); now it is perpendicular to it (71°).",
+      "before": {
+        "object": "OR1",
+        "regions": [
+          "R1"
+        ],
+        "centroid_m": [
+          -1.15,
+          -1.446,
+          -0.765
+        ],
+        "bbox_min_m": [
+          -1.273,
+          -1.743,
+          -1.108
+        ],
+        "bbox_max_m": [
+          -1.073,
+          -1.193,
+          -0.458
+        ]
+      },
+      "after": {
+        "object": "OA2",
+        "regions": [
+          "A2"
+        ],
+        "centroid_m": [
+          -1.125,
+          -1.99,
+          -0.796
+        ],
+        "bbox_min_m": [
+          -1.273,
+          -2.293,
+          -1.108
+        ],
+        "bbox_max_m": [
+          -0.923,
+          -1.893,
+          -0.508
+        ]
+      },
+      "motion": {
+        "translation_m": [
+          0.025,
+          -0.544,
+          -0.031
+        ],
+        "horizontal_distance_m": 0.544,
+        "rotation": {
+          "rotation_deg": 99.0,
+          "note": "from best shape fit"
+        },
+        "footprint_axis_change_deg": 73.2,
+        "after_axis_from_rotation": {
+          "long_axis_deg": 19.1,
+          "wall": "wall x = -1.44 m",
+          "long_axis_vs_wall_deg": 70.9,
+          "relation": "perpendicular"
+        },
+        "before_vs_nearest_wall": {
+          "wall": "wall x = -1.44 m",
+          "distance_to_wall_m": 0.29,
+          "long_axis_vs_wall_deg": 10.1,
+          "relation": "parallel"
+        }
+      },
+      "places": {
+        "before": {
+          "text": "on the floor near the chest of drawers",
+          "support": "floor",
+          "nearest_landmarks": [
+            {
+              "landmark": "chest of drawers",
+              "gap_m": 0.45
+            },
+            {
+              "landmark": "mechanical fan",
+              "gap_m": 0.75
+            },
+            {
+              "landmark": "window",
+              "gap_m": 1.05
+            }
+          ],
+          "nearest_wall": {
+            "wall": "right-hand wall",
+            "distance_m": 0.29
+          }
+        },
+        "after": {
+          "text": "on the floor by the window wall",
+          "support": "floor",
+          "nearest_landmarks": [
+            {
+              "landmark": "window",
+              "gap_m": 0.77
+            },
+            {
+              "landmark": "chest of drawers",
+              "gap_m": 1.15
+            },
+            {
+              "landmark": "mechanical fan",
+              "gap_m": 1.45
+            }
+          ],
+          "nearest_wall": {
+            "wall": "window wall",
+            "distance_m": 0.27
+          }
+        }
+      },
+      "relations": [
+        {
+          "landmark": "chest of drawers",
+          "gap_before_m": 0.45,
+          "gap_after_m": 1.15,
+          "relation": "further away from"
+        },
+        {
+          "landmark": "window",
+          "gap_before_m": 1.05,
+          "gap_after_m": 0.77,
+          "relation": "closer to"
+        }
+      ],
+      "evidence": {
+        "match_score": {
+          "shape_fit": 0.954,
+          "height_similarity": 0.833,
+          "colour_similarity": 0.796,
+          "colour_delta_e": 8.2,
+          "score": 0.882
+        },
+        "margin_to_next_best": 0.123,
+        "path_between": {
+          "samples": 24,
+          "occupied_in_both": 0.0,
+          "free_in_either": 1.0,
+          "unknown_in_both": 0.0
+        }
+      },
+      "arrow": {
+        "from": [
+          -1.15,
+          -1.446,
+          -0.765
+        ],
+        "to": [
+          -1.125,
+          -1.99,
+          -0.796
+        ]
+      },
+      "label_evidence": {
+        "agreement": "both models agree",
+        "florence2_votes": {
+          "suitcase": 7
+        },
+        "siglip2_top5": [
+          {
+            "label": "luggage",
+            "prob": 0.668
+          },
+          {
+            "label": "suitcase",
+            "prob": 0.32
+          },
+          {
+            "label": "bag",
+            "prob": 0.004
+          },
+          {
+            "label": "fan",
+            "prob": 0.002
+          },
+          {
+            "label": "guitar case",
+            "prob": 0.001
+          }
+        ]
+      },
+      "media": {
+        "before_photo": "viewer/gallery/M1_before.jpg",
+        "after_photo": "viewer/gallery/M1_after.jpg",
+        "pair_photo": "viewer/gallery/M1_pair.jpg",
+        "before_frame": "216399718383",
+        "after_frame": "217126967574",
+        "viewpoint_distance_m": 0.42,
+        "viewpoint_angle_deg": 5.1,
+        "matched_viewpoint": true,
+        "point_clouds": [
+          "objects/OR1.ply",
+          "objects/OA2.ply"
+        ]
+      }
+    },
+    {
+      "id": "M2",
+      "type": "moved",
+      "title": "fan? moved 0.71 m",
+      "label": "fan",
+      "label_confident": false,
+      "colour": "black",
+      "description": "The black fan (uncertain: the other model said “remote control”) was moved 0.71 m. It was on the floor near the chest of drawers; it is now on the floor next to the desk. It is now closer to the desk: 0.02 m from it, compared with 0.74 m before. It is now further away from the chest of drawers: 1.18 m from it, compared with 0.46 m before.",
+      "before": {
+        "object": "OR4",
+        "regions": [
+          "R5"
+        ],
+        "centroid_m": [
+          -0.263,
+          -0.5,
+          -0.737
+        ],
+        "bbox_min_m": [
+          -0.373,
+          -0.593,
+          -1.058
+        ],
+        "bbox_max_m": [
+          -0.173,
+          -0.443,
+          -0.408
+        ]
+      },
+      "after": {
+        "object": "OA4",
+        "regions": [
+          "A4"
+        ],
+        "centroid_m": [
+          0.433,
+          -0.643,
+          -0.742
+        ],
+        "bbox_min_m": [
+          0.327,
+          -0.793,
+          -1.108
+        ],
+        "bbox_max_m": [
+          0.627,
+          -0.543,
+          -0.358
+        ]
+      },
+      "motion": {
+        "translation_m": [
+          0.696,
+          -0.144,
+          -0.005
+        ],
+        "horizontal_distance_m": 0.711,
+        "rotation": {
+          "rotation_deg": null,
+          "note": "not determinable: shape fits equally at every yaw"
+        },
+        "footprint_axis_change_deg": 34.0,
+        "after_axis_from_rotation": null,
+        "before_vs_nearest_wall": {
+          "wall": "wall x = -1.44 m",
+          "distance_to_wall_m": 1.18,
+          "long_axis_vs_wall_deg": 71.4,
+          "relation": "perpendicular"
+        }
+      },
+      "places": {
+        "before": {
+          "text": "on the floor near the chest of drawers",
+          "support": "floor",
+          "nearest_landmarks": [
+            {
+              "landmark": "chest of drawers",
+              "gap_m": 0.46
+            },
+            {
+              "landmark": "bed",
+              "gap_m": 0.5
+            },
+            {
+              "landmark": "mechanical fan",
+              "gap_m": 0.66
+            }
+          ],
+          "nearest_wall": {
+            "wall": "right-hand wall",
+            "distance_m": 1.18
+          }
+        },
+        "after": {
+          "text": "on the floor next to the desk",
+          "support": "floor",
+          "nearest_landmarks": [
+            {
+              "landmark": "desk",
+              "gap_m": 0.02
+            },
+            {
+              "landmark": "chair",
+              "gap_m": 0.44
+            },
+            {
+              "landmark": "computer keyboard",
+              "gap_m": 0.54
+            }
+          ],
+          "nearest_wall": {
+            "wall": "left-hand wall",
+            "distance_m": 0.87
+          }
+        }
+      },
+      "relations": [
+        {
+          "landmark": "desk",
+          "gap_before_m": 0.74,
+          "gap_after_m": 0.02,
+          "relation": "closer to"
+        },
+        {
+          "landmark": "chest of drawers",
+          "gap_before_m": 0.46,
+          "gap_after_m": 1.18,
+          "relation": "further away from"
+        }
+      ],
+      "evidence": {
+        "match_score": {
+          "shape_fit": 0.95,
+          "height_similarity": 0.833,
+          "colour_similarity": 0.795,
+          "colour_delta_e": 8.2,
+          "score": 0.879
+        },
+        "margin_to_next_best": 0.12,
+        "path_between": {
+          "samples": 218,
+          "occupied_in_both": 0.0,
+          "free_in_either": 1.0,
+          "unknown_in_both": 0.0
+        }
+      },
+      "arrow": {
+        "from": [
+          -0.263,
+          -0.5,
+          -0.737
+        ],
+        "to": [
+          0.433,
+          -0.643,
+          -0.742
+        ]
+      },
+      "label_evidence": {
+        "agreement": "Florence-2 split {'loudspeaker': 2, 'remote control': 3, 'vase': 1}; SigLIP 2 choice used",
+        "florence2_votes": {
+          "remote control": 3,
+          "loudspeaker": 2,
+          "vase": 1
+        },
+        "siglip2_top5": [
+          {
+            "label": "fan",
+            "prob": 0.594
+          },
+          {
+            "label": "speaker",
+            "prob": 0.093
+          },
+          {
+            "label": "column",
+            "prob": 0.084
+          },
+          {
+            "label": "water cooler",
+            "prob": 0.037
+          },
+          {
+            "label": "radiator",
+            "prob": 0.026
+          }
+        ]
+      },
+      "media": {
+        "before_photo": "viewer/gallery/M2_before.jpg",
+        "after_photo": "viewer/gallery/M2_after.jpg",
+        "pair_photo": "viewer/gallery/M2_pair.jpg",
+        "before_frame": "216329945737",
+        "after_frame": "217053295077",
+        "viewpoint_distance_m": 0.37,
+        "viewpoint_angle_deg": 17.6,
+        "matched_viewpoint": true,
+        "point_clouds": [
+          "objects/OR4.ply",
+          "objects/OA4.ply"
+        ]
+      }
+    },
+    {
+      "id": "M3",
+      "type": "moved",
+      "title": "office chair moved 0.57 m",
+      "label": "office chair",
+      "label_confident": true,
+      "colour": "black",
+      "description": "The black office chair was moved 0.57 m. It was next to the desk; it is now near the window. It is now further away from the desk: 0.84 m from it, compared with 0.20 m before.",
+      "before": {
+        "object": "OR3",
+        "regions": [
+          "R3",
+          "R4",
+          "R11"
+        ],
+        "centroid_m": [
+          0.061,
+          -1.53,
+          -0.556
+        ],
+        "bbox_min_m": [
+          -0.273,
+          -1.893,
+          -0.858
+        ],
+        "bbox_max_m": [
+          0.477,
+          -1.293,
+          -0.108
+        ]
+      },
+      "after": {
+        "object": "OA1",
+        "regions": [
+          "A1",
+          "A7"
+        ],
+        "centroid_m": [
+          -0.487,
+          -1.678,
+          -0.558
+        ],
+        "bbox_min_m": [
+          -0.773,
+          -1.943,
+          -0.908
+        ],
+        "bbox_max_m": [
+          -0.223,
+          -1.293,
+          -0.058
+        ]
+      },
+      "motion": {
+        "translation_m": [
+          -0.548,
+          -0.147,
+          -0.002
+        ],
+        "horizontal_distance_m": 0.567,
+        "rotation": {
+          "rotation_deg": null,
+          "note": "not determinable: best shape fit 0.45 < 0.6"
+        },
+        "footprint_axis_change_deg": null,
+        "after_axis_from_rotation": null,
+        "before_vs_nearest_wall": {
+          "wall": "wall y = -2.26 m",
+          "distance_to_wall_m": 0.73,
+          "relation": "no dominant axis"
+        }
+      },
+      "places": {
+        "before": {
+          "text": "next to the desk",
+          "support": null,
+          "nearest_landmarks": [
+            {
+              "landmark": "desk",
+              "gap_m": 0.2
+            },
+            {
+              "landmark": "computer keyboard",
+              "gap_m": 0.34
+            },
+            {
+              "landmark": "window",
+              "gap_m": 0.4
+            }
+          ],
+          "nearest_wall": {
+            "wall": "window wall",
+            "distance_m": 0.73
+          }
+        },
+        "after": {
+          "text": "near the window",
+          "support": null,
+          "nearest_landmarks": [
+            {
+              "landmark": "window",
+              "gap_m": 0.36
+            },
+            {
+              "landmark": "chest of drawers",
+              "gap_m": 0.6
+            },
+            {
+              "landmark": "desk",
+              "gap_m": 0.84
+            }
+          ],
+          "nearest_wall": {
+            "wall": "window wall",
+            "distance_m": 0.59
+          }
+        }
+      },
+      "relations": [
+        {
+          "landmark": "desk",
+          "gap_before_m": 0.2,
+          "gap_after_m": 0.84,
+          "relation": "further away from"
+        }
+      ],
+      "evidence": {
+        "match_score": {
+          "shape_fit": 0.449,
+          "height_similarity": 0.833,
+          "colour_similarity": 0.911,
+          "colour_delta_e": 3.5,
+          "score": 0.626
+        },
+        "margin_to_next_best": 0.26,
+        "path_between": {
+          "samples": 154,
+          "occupied_in_both": 0.026,
+          "free_in_either": 0.766,
+          "unknown_in_both": 0.104
+        }
+      },
+      "arrow": {
+        "from": [
+          0.061,
+          -1.53,
+          -0.556
+        ],
+        "to": [
+          -0.487,
+          -1.678,
+          -0.558
+        ]
+      },
+      "label_evidence": {
+        "agreement": "Florence-2 split {'chair': 4, 'person': 2, 'coat': 1, 'jacket': 1, 'dog': 1}; SigLIP 2 choice used (Florence-2 proposed it in some views)",
+        "florence2_votes": {
+          "chair": 4,
+          "person": 2,
+          "coat": 1,
+          "jacket": 1,
+          "dog": 1
+        },
+        "siglip2_top5": [
+          {
+            "label": "office chair",
+            "prob": 0.518
+          },
+          {
+            "label": "coat",
+            "prob": 0.245
+          },
+          {
+            "label": "jacket",
+            "prob": 0.056
+          },
+          {
+            "label": "folded chair",
+            "prob": 0.044
+          },
+          {
+            "label": "chair",
+            "prob": 0.043
+          }
+        ]
+      },
+      "media": {
+        "before_photo": "viewer/gallery/M3_before.jpg",
+        "after_photo": "viewer/gallery/M3_after.jpg",
+        "pair_photo": "viewer/gallery/M3_pair.jpg",
+        "before_frame": "216409719218",
+        "after_frame": "217120889273",
+        "viewpoint_distance_m": 0.53,
+        "viewpoint_angle_deg": 7.1,
+        "matched_viewpoint": true,
+        "point_clouds": [
+          "objects/OR3.ply",
+          "objects/OA1.ply"
+        ]
+      }
+    },
+    {
+      "id": "OR2",
+      "type": "depth_only",
+      "title": "closet wall?: depth-only difference",
+      "label": "closet wall",
+      "label_confident": false,
+      "colour": "white",
+      "description": "A thin white vertical panel labelled “closet wall” (uncertain: the other model said “door”) near the footwear: the depth surfaces differ by more than 10 cm here (changed part: 0.95 × 0.11 m, 1.70 m tall), but the second recording's photos still show a closet door at this spot, so nothing was removed. Most likely the closet wall sits slightly differently, a thin or see-through surface read differently in depth, or the two recordings are locally misaligned here.",
+      "object": {
+        "objects": [
+          "OR2"
+        ],
+        "regions": [
+          "R2",
+          "R8"
+        ],
+        "present_in": "Myroomesh1",
+        "centroid_m": [
+          0.754,
+          2.393,
+          0.128
+        ],
+        "bbox_min_m": [
+          0.277,
+          2.307,
+          -0.958
+        ],
+        "bbox_max_m": [
+          1.227,
+          2.457,
+          0.742
+        ]
+      },
+      "place": {
+        "text": "near the footwear",
+        "support": null,
+        "nearest_landmarks": [
+          {
+            "landmark": "footwear",
+            "gap_m": 0.41
+          },
+          {
+            "landmark": "door",
+            "gap_m": 0.7
+          },
+          {
+            "landmark": "sink",
+            "gap_m": 0.87
+          }
+        ],
+        "nearest_wall": {
+          "wall": "left-hand wall",
+          "distance_m": 0.55
+        }
+      },
+      "facts": {
+        "changed_part": "0.95 × 0.11 m, 1.70 m tall",
+        "photo_check": {
+          "session": "Myroomesh2",
+          "label": "closet door",
+          "agreement": "compatible: Florence-2 'door', SigLIP 2 'closet door' (rank 3)",
+          "confident": true,
+          "florence_votes": {
+            "door": 3
+          },
+          "florence_vote_fraction": 1.0,
+          "siglip_top5": [
+            {
+              "label": "doorframe",
+              "prob": 0.32
+            },
+            {
+              "label": "telephone",
+              "prob": 0.261
+            },
+            {
+              "label": "closet door",
+              "prob": 0.166
+            },
+            {
+              "label": "door",
+              "prob": 0.044
+            },
+            {
+              "label": "closet wall",
+              "prob": 0.043
+            }
+          ],
+          "descriptions": [
+            "white door with telephone and keyhole",
+            "white door with telephone and keyhole",
+            "corded phone"
+          ],
+          "same_object_visible": true,
+          "views": [
+            {
+              "frame": "217165851973",
+              "florence_category": "door",
+              "box_xyxy": [
+                31.7,
+                154.4,
+                1023.0,
+                758.6
+              ],
+              "siglip_top3": [
+                {
+                  "label": "doorframe",
+                  "prob": 0.442
+                },
+                {
+                  "label": "closet door",
+                  "prob": 0.179
+                },
+                {
+                  "label": "telephone",
+                  "prob": 0.112
+                }
+              ]
+            },
+            {
+              "frame": "217164153385",
+              "florence_category": "door",
+              "box_xyxy": [
+                13.4,
+                270.1,
+                800.0,
+                763.6
+              ],
+              "siglip_top3": [
+                {
+                  "label": "doorframe",
+                  "prob": 0.431
+                },
+                {
+                  "label": "closet door",
+                  "prob": 0.258
+                },
+                {
+                  "label": "door",
+                  "prob": 0.095
+                }
+              ]
+            },
+            {
+              "frame": "217166884448",
+              "florence_category": "door",
+              "box_xyxy": [
+                0.0,
+                0.0,
+                667.7,
+                573.9
+              ],
+              "siglip_top3": [
+                {
+                  "label": "telephone",
+                  "prob": 0.638
+                },
+                {
+                  "label": "doorframe",
+                  "prob": 0.087
+                },
+                {
+                  "label": "closet wall",
+                  "prob": 0.064
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "label_evidence": {
+        "agreement": "models disagree: Florence-2 'door' not in SigLIP 2 top 3; SigLIP 2 choice used",
+        "florence2_votes": {
+          "door": 2
+        },
+        "siglip2_top5": [
+          {
+            "label": "closet wall",
+            "prob": 0.395
+          },
+          {
+            "label": "telephone",
+            "prob": 0.185
+          },
+          {
+            "label": "doorframe",
+            "prob": 0.159
+          },
+          {
+            "label": "closet door",
+            "prob": 0.147
+          },
+          {
+            "label": "door",
+            "prob": 0.022
+          }
+        ]
+      },
+      "media": {
+        "before_photo": "viewer/gallery/OR2_before.jpg",
+        "after_photo": "viewer/gallery/OR2_after.jpg",
+        "pair_photo": "viewer/gallery/OR2_pair.jpg",
+        "before_frame": "216297392897",
+        "after_frame": "217001321130",
+        "viewpoint_distance_m": 0.06,
+        "viewpoint_angle_deg": 11.8,
+        "matched_viewpoint": true,
+        "point_clouds": [
+          "objects/OR2.ply"
+        ]
+      }
+    },
+    {
+      "id": "OR5",
+      "type": "removed",
+      "title": "lamp? left its spot",
+      "label": "lamp",
+      "label_confident": false,
+      "colour": "white",
+      "description": "A white lamp (uncertain: the other model said “vase”) that stood near the chest of drawers no longer fills that space (changed part: 0.16 × 0.15 m, 0.80 m tall). No matching object appeared anywhere both recordings observed, so it was taken away or moved somewhere only one recording saw.",
+      "object": {
+        "objects": [
+          "OR5"
+        ],
+        "regions": [
+          "R6"
+        ],
+        "present_in": "Myroomesh1",
+        "centroid_m": [
+          -1.193,
+          -1.081,
+          -0.604
+        ],
+        "bbox_min_m": [
+          -1.273,
+          -1.193,
+          -1.008
+        ],
+        "bbox_max_m": [
+          -1.073,
+          -0.943,
+          -0.208
+        ]
+      },
+      "place": {
+        "text": "near the chest of drawers",
+        "support": null,
+        "nearest_landmarks": [
+          {
+            "landmark": "chest of drawers",
+            "gap_m": 0.3
+          },
+          {
+            "landmark": "mechanical fan",
+            "gap_m": 0.58
+          },
+          {
+            "landmark": "bed",
+            "gap_m": 1.01
+          }
+        ],
+        "nearest_wall": {
+          "wall": "right-hand wall",
+          "distance_m": 0.25
+        }
+      },
+      "facts": {
+        "changed_part": "0.16 × 0.15 m, 0.80 m tall",
+        "photo_check": {
+          "session": "Myroomesh2",
+          "label": "closet wall",
+          "agreement": "Florence-2 split {'toilet': 1, 'door': 1, 'toilet paper': 1}; SigLIP 2 choice used",
+          "confident": false,
+          "florence_votes": {
+            "toilet": 1,
+            "door": 1,
+            "toilet paper": 1
+          },
+          "florence_vote_fraction": 0.0,
+          "siglip_top5": [
+            {
+              "label": "closet wall",
+              "prob": 0.165
+            },
+            {
+              "label": "bathroom stall",
+              "prob": 0.077
+            },
+            {
+              "label": "wall",
+              "prob": 0.056
+            },
+            {
+              "label": "bathroom stall door",
+              "prob": 0.054
+            },
+            {
+              "label": "sink",
+              "prob": 0.045
+            }
+          ],
+          "descriptions": [
+            "lampshade",
+            "white wall",
+            "white wall"
+          ],
+          "same_object_visible": false,
+          "views": [
+            {
+              "frame": "217054077766",
+              "florence_category": "toilet",
+              "box_xyxy": [
+                321.8,
+                500.4,
+                513.9,
+                568.5
+              ],
+              "siglip_top3": [
+                {
+                  "label": "sink",
+                  "prob": 0.124
+                },
+                {
+                  "label": "mirror",
+                  "prob": 0.064
+                },
+                {
+                  "label": "bathroom stall",
+                  "prob": 0.054
+                }
+              ]
+            },
+            {
+              "frame": "217126051665",
+              "florence_category": "door",
+              "box_xyxy": [
+                538.5,
+                10.4,
+                965.6,
+                83.9
+              ],
+              "siglip_top3": [
+                {
+                  "label": "bathroom stall door",
+                  "prob": 0.076
+                },
+                {
+                  "label": "wall",
+                  "prob": 0.064
+                },
+                {
+                  "label": "bathroom stall",
+                  "prob": 0.063
+                }
+              ]
+            },
+            {
+              "frame": "217136692847",
+              "florence_category": "toilet paper",
+              "box_xyxy": [
+                21.1,
+                476.9,
+                748.4,
+                695.7
+              ],
+              "siglip_top3": [
+                {
+                  "label": "closet wall",
+                  "prob": 0.419
+                },
+                {
+                  "label": "bathroom stall",
+                  "prob": 0.114
+                },
+                {
+                  "label": "wall",
+                  "prob": 0.079
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "label_evidence": {
+        "agreement": "Florence-2 split {'vase': 1, 'toilet paper': 1}; SigLIP 2 choice used",
+        "florence2_votes": {
+          "vase": 1,
+          "toilet paper": 1
+        },
+        "siglip2_top5": [
+          {
+            "label": "lamp",
+            "prob": 0.218
+          },
+          {
+            "label": "vase",
+            "prob": 0.19
+          },
+          {
+            "label": "ceiling",
+            "prob": 0.098
+          },
+          {
+            "label": "paper",
+            "prob": 0.064
+          },
+          {
+            "label": "paper towel roll",
+            "prob": 0.042
+          }
+        ]
+      },
+      "media": {
+        "before_photo": "viewer/gallery/OR5_before.jpg",
+        "after_photo": "viewer/gallery/OR5_after.jpg",
+        "pair_photo": "viewer/gallery/OR5_pair.jpg",
+        "before_frame": "216399718383",
+        "after_frame": "217126967574",
+        "viewpoint_distance_m": 0.42,
+        "viewpoint_angle_deg": 5.1,
+        "matched_viewpoint": true,
+        "point_clouds": [
+          "objects/OR5.ply"
+        ]
+      }
+    },
+    {
+      "id": "OR6",
+      "type": "removed",
+      "title": "bathroom cabinet? left its spot",
+      "label": "bathroom cabinet",
+      "label_confident": false,
+      "colour": "white",
+      "description": "A thin white vertical panel labelled “bathroom cabinet” (uncertain: the other model said “refrigerator”) that stood about 1.5 m above the floor next to the shelf at (-1.1, +1.2) no longer fills that space (changed part: 0.45 × 0.05 m, 0.40 m tall). No matching object appeared anywhere both recordings observed, so it was taken away or moved somewhere only one recording saw.",
+      "object": {
+        "objects": [
+          "OR6"
+        ],
+        "regions": [
+          "R7"
+        ],
+        "present_in": "Myroomesh1",
+        "centroid_m": [
+          -0.357,
+          0.982,
+          0.433
+        ],
+        "bbox_min_m": [
+          -0.623,
+          0.957,
+          0.242
+        ],
+        "bbox_max_m": [
+          -0.173,
+          1.007,
+          0.642
+        ]
+      },
+      "place": {
+        "text": "about 1.5 m above the floor next to the shelf at (-1.1, +1.2)",
+        "support": null,
+        "nearest_landmarks": [
+          {
+            "landmark": "shelf at (-1.1, +1.2)",
+            "gap_m": 0.22
+          },
+          {
+            "landmark": "door",
+            "gap_m": 0.45
+          },
+          {
+            "landmark": "mirror",
+            "gap_m": 0.73
+          }
+        ],
+        "nearest_wall": {
+          "wall": "right-hand wall",
+          "distance_m": 1.09
+        }
+      },
+      "facts": {
+        "changed_part": "0.45 × 0.05 m, 0.40 m tall",
+        "photo_check": {
+          "session": "Myroomesh2",
+          "label": "closet door",
+          "agreement": "compatible: Florence-2 'door', SigLIP 2 'closet door' (rank 1)",
+          "confident": true,
+          "florence_votes": {
+            "door": 1
+          },
+          "florence_vote_fraction": 1.0,
+          "siglip_top5": [
+            {
+              "label": "closet door",
+              "prob": 0.138
+            },
+            {
+              "label": "mirror",
+              "prob": 0.084
+            },
+            {
+              "label": "bathroom stall door",
+              "prob": 0.08
+            },
+            {
+              "label": "closet wall",
+              "prob": 0.065
+            },
+            {
+              "label": "doorframe",
+              "prob": 0.048
+            }
+          ],
+          "descriptions": [
+            "beige paint color swatch"
+          ],
+          "same_object_visible": false,
+          "views": [
+            {
+              "frame": "217067050409",
+              "florence_category": "door",
+              "box_xyxy": [
+                207.8,
+                307.6,
+                424.4,
+                387.8
+              ],
+              "siglip_top3": [
+                {
+                  "label": "closet door",
+                  "prob": 0.138
+                },
+                {
+                  "label": "mirror",
+                  "prob": 0.084
+                },
+                {
+                  "label": "bathroom stall door",
+                  "prob": 0.08
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "label_evidence": {
+        "agreement": "models disagree: Florence-2 'refrigerator' not in SigLIP 2 top 3; SigLIP 2 choice used",
+        "florence2_votes": {
+          "refrigerator": 1
+        },
+        "siglip2_top5": [
+          {
+            "label": "bathroom cabinet",
+            "prob": 0.48
+          },
+          {
+            "label": "cabinet",
+            "prob": 0.23
+          },
+          {
+            "label": "kitchen cabinet",
+            "prob": 0.146
+          },
+          {
+            "label": "closet wall",
+            "prob": 0.058
+          },
+          {
+            "label": "closet",
+            "prob": 0.024
+          }
+        ]
+      },
+      "media": {
+        "before_photo": "viewer/gallery/OR6_before.jpg",
+        "after_photo": "viewer/gallery/OR6_after.jpg",
+        "pair_photo": "viewer/gallery/OR6_pair.jpg",
+        "before_frame": "216360798401",
+        "after_frame": "217067050409",
+        "viewpoint_distance_m": 1.7,
+        "viewpoint_angle_deg": 70.7,
+        "matched_viewpoint": true,
+        "point_clouds": [
+          "objects/OR6.ply"
+        ]
+      }
+    },
+    {
+      "id": "OR8",
+      "type": "removed",
+      "title": "plastic bag left its spot",
+      "label": "plastic bag",
+      "label_confident": true,
+      "colour": "white",
+      "description": "A white plastic bag that stood about 1.7 m above the floor near the shelf at (-1.1, +1.2) no longer fills that space (changed part: 0.51 × 0.17 m, 0.20 m tall). No matching object appeared anywhere both recordings observed, so it was taken away or moved somewhere only one recording saw.",
+      "object": {
+        "objects": [
+          "OR8"
+        ],
+        "regions": [
+          "R10"
+        ],
+        "present_in": "Myroomesh1",
+        "centroid_m": [
+          -1.132,
+          1.028,
+          0.555
+        ],
+        "bbox_min_m": [
+          -1.323,
+          0.957,
+          0.492
+        ],
+        "bbox_max_m": [
+          -0.823,
+          1.107,
+          0.692
+        ]
+      },
+      "place": {
+        "text": "about 1.7 m above the floor near the shelf at (-1.1, +1.2)",
+        "support": null,
+        "nearest_landmarks": [
+          {
+            "landmark": "shelf at (-1.1, +1.2)",
+            "gap_m": 0.25
+          },
+          {
+            "landmark": "mirror",
+            "gap_m": 0.58
+          },
+          {
+            "landmark": "door",
+            "gap_m": 0.64
+          }
+        ],
+        "nearest_wall": {
+          "wall": "right-hand wall",
+          "distance_m": 0.31
+        }
+      },
+      "facts": {
+        "changed_part": "0.51 × 0.17 m, 0.20 m tall",
+        "photo_check": {
+          "session": "Myroomesh2",
+          "label": "bathroom stall",
+          "agreement": "models disagree: Florence-2 'door handle' not in SigLIP 2 top 3; SigLIP 2 choice used",
+          "confident": false,
+          "florence_votes": {
+            "door handle": 1
+          },
+          "florence_vote_fraction": 1.0,
+          "siglip_top5": [
+            {
+              "label": "bathroom stall",
+              "prob": 0.104
+            },
+            {
+              "label": "bathroom stall door",
+              "prob": 0.098
+            },
+            {
+              "label": "doorframe",
+              "prob": 0.083
+            },
+            {
+              "label": "ceiling",
+              "prob": 0.073
+            },
+            {
+              "label": "closet wall",
+              "prob": 0.041
+            }
+          ],
+          "descriptions": [
+            "beige wall"
+          ],
+          "same_object_visible": false,
+          "views": [
+            {
+              "frame": "217063919657",
+              "florence_category": "door handle",
+              "box_xyxy": [
+                24.5,
+                367.9,
+                103.5,
+                435.3
+              ],
+              "siglip_top3": [
+                {
+                  "label": "bathroom stall",
+                  "prob": 0.104
+                },
+                {
+                  "label": "bathroom stall door",
+                  "prob": 0.098
+                },
+                {
+                  "label": "doorframe",
+                  "prob": 0.083
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "label_evidence": {
+        "agreement": "both models agree",
+        "florence2_votes": {
+          "plastic bag": 1
+        },
+        "siglip2_top5": [
+          {
+            "label": "plastic bag",
+            "prob": 0.919
+          },
+          {
+            "label": "closet",
+            "prob": 0.015
+          },
+          {
+            "label": "bag",
+            "prob": 0.01
+          },
+          {
+            "label": "paper bag",
+            "prob": 0.007
+          },
+          {
+            "label": "trash bin",
+            "prob": 0.004
+          }
+        ]
+      },
+      "media": {
+        "before_photo": "viewer/gallery/OR8_before.jpg",
+        "after_photo": "viewer/gallery/OR8_after.jpg",
+        "pair_photo": "viewer/gallery/OR8_pair.jpg",
+        "before_frame": "216354797886",
+        "after_frame": "217068232768",
+        "viewpoint_distance_m": 1.71,
+        "viewpoint_angle_deg": 37.5,
+        "matched_viewpoint": true,
+        "point_clouds": [
+          "objects/OR8.ply"
+        ]
+      }
+    },
+    {
+      "id": "OA5",
+      "type": "changed_at_landmark",
+      "title": "change at the desk",
+      "label": "desk",
+      "label_confident": true,
+      "colour": "white",
+      "description": "Part of the desk now fills space that was empty in the first recording (changed part: 0.41 × 0.15 m, 0.35 m tall). Either the desk was nudged or something at its edge changed; the labels only say it is the desk. The first recording's photos show the desk at this spot too, which fits a small nudge.",
+      "object": {
+        "objects": [
+          "OA5"
+        ],
+        "regions": [
+          "A5"
+        ],
+        "present_in": "Myroomesh2",
+        "centroid_m": [
+          0.788,
+          -0.796,
+          -0.541
+        ],
+        "bbox_min_m": [
+          0.527,
+          -0.943,
+          -0.708
+        ],
+        "bbox_max_m": [
+          1.077,
+          -0.693,
+          -0.358
+        ]
+      },
+      "place": {
+        "text": "near the chair",
+        "support": null,
+        "nearest_landmarks": [
+          {
+            "landmark": "television",
+            "gap_m": 0.15
+          },
+          {
+            "landmark": "computer monitor at (+1.2, -0.9)",
+            "gap_m": 0.16
+          },
+          {
+            "landmark": "laptop",
+            "gap_m": 0.16
+          }
+        ],
+        "nearest_wall": {
+          "wall": "left-hand wall",
+          "distance_m": 0.52
+        }
+      },
+      "facts": {
+        "landmark": "desk",
+        "side": "added",
+        "changed_part": "0.41 × 0.15 m, 0.35 m tall"
+      },
+      "label_evidence": {
+        "agreement": "both models agree",
+        "florence2_votes": {
+          "desk": 3
+        },
+        "siglip2_top5": [
+          {
+            "label": "desk",
+            "prob": 0.896
+          },
+          {
+            "label": "keyboard",
+            "prob": 0.017
+          },
+          {
+            "label": "computer tower",
+            "prob": 0.014
+          },
+          {
+            "label": "monitor",
+            "prob": 0.013
+          },
+          {
+            "label": "coffee table",
+            "prob": 0.005
+          }
+        ]
+      },
+      "media": {
+        "before_photo": "viewer/gallery/OA5_before.jpg",
+        "after_photo": "viewer/gallery/OA5_after.jpg",
+        "pair_photo": "viewer/gallery/OA5_pair.jpg",
+        "before_frame": "216381200149",
+        "after_frame": "217097292118",
+        "viewpoint_distance_m": 0.57,
+        "viewpoint_angle_deg": 1.9,
+        "matched_viewpoint": true,
+        "point_clouds": [
+          "objects/OA5.ply"
+        ]
+      }
+    },
+    {
+      "id": "S1",
+      "type": "depth_only",
+      "title": "curtain: depth-only difference",
+      "label": "curtain",
+      "label_confident": true,
+      "colour": "brown",
+      "description": "The brown curtain across the window appears in the photos of both recordings (the first recording's photos are labelled “curtain”), but only the second recording's depth registers it as a solid surface: a 1.4 m wide, 2.1 m tall sheet. So it was not opened or closed; most likely the depth sensor saw through the thin material in the first recording, or it hangs slightly differently. A fold that hangs further into the room (OA3) is included, merged because it has the same label and touches it.",
+      "object": {
+        "objects": [
+          "S1",
+          "OA3"
+        ],
+        "regions": [
+          "SA1",
+          "SA2",
+          "SA3",
+          "SA4",
+          "SA5",
+          "A3"
+        ],
+        "present_in": "Myroomesh2",
+        "centroid_m": [
+          -0.095,
+          -2.056,
+          0.167
+        ],
+        "bbox_min_m": [
+          -0.773,
+          -2.143,
+          -1.058
+        ],
+        "bbox_max_m": [
+          0.727,
+          -1.943,
+          1.042
+        ]
+      },
+      "place": null,
+      "facts": {
+        "width_m": 1.4,
+        "height_m": 2.1,
+        "present_in": "Myroomesh2",
+        "merged_objects": [
+          "OA3"
+        ],
+        "photo_check": {
+          "session": "Myroomesh1",
+          "label": "curtain",
+          "agreement": "both models agree",
+          "confident": true,
+          "florence_votes": {
+            "curtain": 3
+          },
+          "florence_vote_fraction": 1.0,
+          "siglip_top5": [
+            {
+              "label": "curtain",
+              "prob": 0.573
+            },
+            {
+              "label": "office chair",
+              "prob": 0.091
+            },
+            {
+              "label": "blinds",
+              "prob": 0.06
+            },
+            {
+              "label": "window",
+              "prob": 0.054
+            },
+            {
+              "label": "coat",
+              "prob": 0.036
+            }
+          ],
+          "descriptions": [
+            "wooden window blinds with valance",
+            "brown sheer curtains",
+            "brown sheer curtains"
+          ],
+          "same_object_visible": true,
+          "views": [
+            {
+              "frame": "216323511843",
+              "florence_category": "curtain",
+              "box_xyxy": [
+                396.6,
+                209.0,
+                673.4,
+                449.9
+              ],
+              "siglip_top3": [
+                {
+                  "label": "curtain",
+                  "prob": 0.726
+                },
+                {
+                  "label": "window",
+                  "prob": 0.107
+                },
+                {
+                  "label": "shower curtain",
+                  "prob": 0.051
+                }
+              ]
+            },
+            {
+              "frame": "216411136003",
+              "florence_category": "curtain",
+              "box_xyxy": [
+                0.0,
+                228.1,
+                854.0,
+                767.0
+              ],
+              "siglip_top3": [
+                {
+                  "label": "office chair",
+                  "prob": 0.274
+                },
+                {
+                  "label": "curtain",
+                  "prob": 0.202
+                },
+                {
+                  "label": "coat",
+                  "prob": 0.107
+                }
+              ]
+            },
+            {
+              "frame": "216414636293",
+              "florence_category": "curtain",
+              "box_xyxy": [
+                174.9,
+                0.0,
+                1018.5,
+                599.7
+              ],
+              "siglip_top3": [
+                {
+                  "label": "curtain",
+                  "prob": 0.79
+                },
+                {
+                  "label": "blinds",
+                  "prob": 0.147
+                },
+                {
+                  "label": "window",
+                  "prob": 0.018
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "label_evidence": {
+        "agreement": "both models agree",
+        "florence2_votes": {
+          "curtain": 4
+        },
+        "siglip2_top5": [
+          {
+            "label": "curtain",
+            "prob": 0.588
+          },
+          {
+            "label": "office chair",
+            "prob": 0.165
+          },
+          {
+            "label": "radiator",
+            "prob": 0.066
+          },
+          {
+            "label": "blinds",
+            "prob": 0.06
+          },
+          {
+            "label": "window",
+            "prob": 0.043
+          }
+        ]
+      },
+      "media": {
+        "before_photo": "viewer/gallery/S1_before.jpg",
+        "after_photo": "viewer/gallery/S1_after.jpg",
+        "pair_photo": "viewer/gallery/S1_pair.jpg",
+        "before_frame": "216411819393",
+        "after_frame": "217154594659",
+        "viewpoint_distance_m": 0.54,
+        "viewpoint_angle_deg": 6.3,
+        "matched_viewpoint": true,
+        "point_clouds": [
+          "objects/S1.ply",
+          "objects/OA3.ply"
+        ]
+      }
+    },
+    {
+      "id": "SMALL",
+      "type": "small_changes",
+      "title": "small changes",
+      "label": null,
+      "label_confident": false,
+      "colour": null,
+      "description": "4 further changes are smaller than a 15 cm cube; listed, but not interpreted.",
+      "objects": [
+        {
+          "object": "X1",
+          "side": "removed",
+          "regions": [
+            "R12"
+          ],
+          "centroid_m": [
+            1.016,
+            -0.615,
+            -0.773
+          ],
+          "voxels": 15
+        },
+        {
+          "object": "X2",
+          "side": "removed",
+          "regions": [
+            "R13"
+          ],
+          "centroid_m": [
+            0.638,
+            -0.99,
+            -0.887
+          ],
+          "voxels": 14
+        },
+        {
+          "object": "X3",
+          "side": "added",
+          "regions": [
+            "A8"
+          ],
+          "centroid_m": [
+            0.823,
+            -1.163,
+            -1.004
+          ],
+          "voxels": 17
+        },
+        {
+          "object": "X4",
+          "side": "added",
+          "regions": [
+            "A9"
+          ],
+          "centroid_m": [
+            1.012,
+            -0.968,
+            -1.083
+          ],
+          "voxels": 10
+        }
+      ]
+    }
+  ],
+  "room": {
+    "floor_z_m": -1.2283,
+    "walls": [
+      {
+        "label": "left-hand wall",
+        "normal": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "offset_m": 1.4073
+      },
+      {
+        "label": "window wall",
+        "normal": [
+          0.0,
+          1.0,
+          0.0
+        ],
+        "offset_m": -2.2634
+      },
+      {
+        "label": "right-hand wall",
+        "normal": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "offset_m": -1.4427
+      },
+      {
+        "label": "left-hand wall",
+        "normal": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "offset_m": 1.3073
+      }
+    ],
+    "landmarks": [
+      {
+        "id": "L1",
+        "name": "bed",
+        "centroid_m": [
+          -0.419,
+          0.4,
+          -0.766
+        ],
+        "bbox_min_m": [
+          -1.473,
+          0.057,
+          -1.258
+        ],
+        "bbox_max_m": [
+          0.627,
+          1.007,
+          -0.408
+        ]
+      },
+      {
+        "id": "L2",
+        "name": "desk",
+        "centroid_m": [
+          0.927,
+          -1.226,
+          -0.617
+        ],
+        "bbox_min_m": [
+          0.527,
+          -2.393,
+          -1.258
+        ],
+        "bbox_max_m": [
+          1.427,
+          -0.143,
+          -0.358
+        ]
+      },
+      {
+        "id": "L3",
+        "name": "chest of drawers",
+        "centroid_m": [
+          -0.976,
+          -0.427,
+          -0.781
+        ],
+        "bbox_min_m": [
+          -1.423,
+          -0.743,
+          -1.258
+        ],
+        "bbox_max_m": [
+          -0.823,
+          -0.043,
+          -0.508
+        ]
+      },
+      {
+        "id": "L4",
+        "name": "footwear",
+        "centroid_m": [
+          -0.158,
+          2.251,
+          -1.004
+        ],
+        "bbox_min_m": [
+          -0.623,
+          2.107,
+          -1.258
+        ],
+        "bbox_max_m": [
+          0.327,
+          2.457,
+          -0.508
+        ]
+      },
+      {
+        "id": "L5",
+        "name": "window",
+        "centroid_m": [
+          0.299,
+          -2.306,
+          0.265
+        ],
+        "bbox_min_m": [
+          -0.273,
+          -2.393,
+          -0.508
+        ],
+        "bbox_max_m": [
+          0.677,
+          -2.243,
+          1.142
+        ]
+      },
+      {
+        "id": "L6",
+        "name": "television",
+        "centroid_m": [
+          1.246,
+          -0.619,
+          -0.169
+        ],
+        "bbox_min_m": [
+          1.127,
+          -1.093,
+          -0.458
+        ],
+        "bbox_max_m": [
+          1.277,
+          -0.143,
+          0.142
+        ]
+      },
+      {
+        "id": "L7",
+        "name": "door",
+        "centroid_m": [
+          -0.089,
+          1.522,
+          -0.032
+        ],
+        "bbox_min_m": [
+          -0.473,
+          1.457,
+          -1.008
+        ],
+        "bbox_max_m": [
+          0.477,
+          1.607,
+          0.842
+        ]
+      },
+      {
+        "id": "L8",
+        "name": "chair",
+        "centroid_m": [
+          1.077,
+          -0.163,
+          -0.726
+        ],
+        "bbox_min_m": [
+          0.777,
+          -0.243,
+          -1.258
+        ],
+        "bbox_max_m": [
+          1.377,
+          -0.093,
+          -0.408
+        ]
+      },
+      {
+        "id": "L9",
+        "name": "computer monitor at (+1.1, -2.0)",
+        "centroid_m": [
+          1.127,
+          -2.047,
+          -0.269
+        ],
+        "bbox_min_m": [
+          0.927,
+          -2.443,
+          -0.458
+        ],
+        "bbox_max_m": [
+          1.377,
+          -1.543,
+          -0.058
+        ]
+      },
+      {
+        "id": "L10",
+        "name": "laptop",
+        "centroid_m": [
+          1.24,
+          -1.429,
+          -0.438
+        ],
+        "bbox_min_m": [
+          0.977,
+          -1.793,
+          -0.558
+        ],
+        "bbox_max_m": [
+          1.427,
+          -1.093,
+          -0.258
+        ]
+      },
+      {
+        "id": "L11",
+        "name": "sink",
+        "centroid_m": [
+          -0.683,
+          1.948,
+          -0.408
+        ],
+        "bbox_min_m": [
+          -0.923,
+          1.607,
+          -0.808
+        ],
+        "bbox_max_m": [
+          -0.373,
+          2.257,
+          -0.208
+        ]
+      },
+      {
+        "id": "L12",
+        "name": "shelf at (+1.3, -0.7)",
+        "centroid_m": [
+          1.327,
+          -0.682,
+          0.497
+        ],
+        "bbox_min_m": [
+          1.027,
+          -1.293,
+          0.242
+        ],
+        "bbox_max_m": [
+          1.427,
+          -0.193,
+          0.842
+        ]
+      },
+      {
+        "id": "L13",
+        "name": "computer monitor at (+1.2, -0.9)",
+        "centroid_m": [
+          1.217,
+          -0.922,
+          -0.217
+        ],
+        "bbox_min_m": [
+          1.127,
+          -1.293,
+          -0.458
+        ],
+        "bbox_max_m": [
+          1.327,
+          -0.643,
+          0.092
+        ]
+      },
+      {
+        "id": "L14",
+        "name": "mirror",
+        "centroid_m": [
+          -0.956,
+          1.929,
+          0.265
+        ],
+        "bbox_min_m": [
+          -1.023,
+          1.657,
+          0.042
+        ],
+        "bbox_max_m": [
+          -0.923,
+          2.257,
+          0.542
+        ]
+      },
+      {
+        "id": "L15",
+        "name": "computer keyboard",
+        "centroid_m": [
+          0.77,
+          -1.543,
+          -0.476
+        ],
+        "bbox_min_m": [
+          0.677,
+          -1.893,
+          -0.558
+        ],
+        "bbox_max_m": [
+          0.877,
+          -1.243,
+          -0.408
+        ]
+      },
+      {
+        "id": "L16",
+        "name": "mechanical fan",
+        "centroid_m": [
+          -1.097,
+          -0.293,
+          -0.458
+        ],
+        "bbox_min_m": [
+          -1.223,
+          -0.443,
+          -0.608
+        ],
+        "bbox_max_m": [
+          -1.023,
+          -0.093,
+          -0.258
+        ]
+      },
+      {
+        "id": "L17",
+        "name": "shelf at (-1.1, +1.2)",
+        "centroid_m": [
+          -1.096,
+          1.173,
+          0.142
+        ],
+        "bbox_min_m": [
+          -1.373,
+          1.057,
+          -0.058
+        ],
+        "bbox_max_m": [
+          -0.723,
+          1.207,
+          0.242
+        ]
+      }
+    ]
+  },
+  "coverage": {
+    "occupied_voxels_scan1": 34938,
+    "occupied_voxels_scan2": 34872,
+    "free_voxels_scan1": 150328,
+    "free_voxels_scan2": 137457,
+    "occupied_in_either": 56482,
+    "occupied_in_either_and_observed_by_other_scan": 25881,
+    "cross_observed_fraction": 0.4582,
+    "occupied_in_one_scan_but_unknown_in_other": 30601
+  },
+  "models": [
+    {
+      "id": "facebook/sam2.1-hiera-base-plus",
+      "revision": "b7320756a13354e7530a63935656d35b2f91a290",
+      "license": "Apache-2.0",
+      "use": "object masks"
+    },
+    {
+      "id": "florence-community/Florence-2-large",
+      "revision": "4271c66b88cdbc05735372ec13b2360108de5317",
+      "license": "MIT",
+      "use": "region category + description"
+    },
+    {
+      "id": "google/siglip2-so400m-patch14-384",
+      "revision": "e8e487298228002f3d8a82e0cd5c8ea9c567f57f",
+      "license": "Apache-2.0",
+      "use": "zero-shot cross-check"
+    },
+    {
+      "id": "HuggingFaceTB/SmolVLM2-500M-Video-Instruct",
+      "revision": "7b375e1b73b11138ff12fe22c8f2822d8fe03467",
+      "license": "Apache-2.0",
+      "use": "one question per view: main colour"
+    }
+  ],
+  "learned_models_trained_or_finetuned": false,
+  "manual_labels_used": false,
+  "pipeline": {
+    "step1_change_mask_sha256": "0c1c5a6ca3c4127c40cd900204e02ad58195d3a349fee9611bc67f183267570e",
+    "step2_result_sha256": "97cf4919a5c9219430ce3ef5b0c11adf2bf62a8d80c79d7f0d52aa38d061aae6",
+    "step3_result_sha256": "d00afb61f67f02c264aebc9a533ad3fbf863fff96865751ea6c4f17fc1ec4956",
+    "step4a_result_sha256": "2385a65b923bfd64d22328ba8950a01c302596b5a29f69275f020575a1ed16b1",
+    "step4b_result_sha256": "2679e71a3199c83439a72cb3816545ae424535eaf729dc2244bf26ab74589089",
+    "step4c_result_sha256": "c732a5c20e9247dda18bdc9ba1018c75cdeacf6a292478ff905eb3c9e86bc51b"
+  },
+  "limitations": [
+    "Only space observed by both recordings can be compared; changes elsewhere are reported as unknown, not as removed (cross-observed fraction of occupied space: 0.4582).",
+    "Objects smaller than about a 15 cm cube are listed but not interpreted.",
+    "'Gone' means the space is empty in the second recording and no matching object was found in space both recordings observed; the object may have moved somewhere only one recording saw.",
+    "Labels marked label_confident=false come from one model only and can be wrong (the door is labelled 'closet wall')."
+  ],
+  "result_sha256": "3cb9cf6c43cf1bd3687e338ca4aaceb2e888974aaa18707eea0cb8171836da89"
+}

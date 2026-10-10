@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "navdelta"
+version = "1.0.0"
+description = "Find, show and describe what changed between two phone RGB-D recordings of the same indoor space."
+readme = "README.md"
+requires-python = ">=3.12"
+# Exact versions are pinned in requirements.txt (install that first).
+
+[project.scripts]
+navdelta = "navdelta.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["navdelta*"]
+
+[tool.setuptools.package-data]
+"navdelta.viewer" = ["index.html"]
+"navdelta.approaches.voxel_diff" = ["resources/*.json"]

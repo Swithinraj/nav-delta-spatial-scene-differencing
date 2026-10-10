@@ -1,0 +1,31 @@
+# docker compose run --rm navdelta run          (NVIDIA GPU)
+# docker compose run --rm navdelta-cpu run      (no GPU)
+#
+# Folders (override with environment variables):
+#   NAVDELTA_DATA_DIR   recordings, mounted read-only   (default ./data)
+#   NAVDELTA_OUT_DIR    generated results               (default ./outputs)
+#   NAVDELTA_MODEL_DIR  downloaded model weights         (default ./.hf_cache)
+x-navdelta: &navdelta
+  build: .
+  image: nav-delta-voxel_diff:1.0.0
+  volumes:
+    - ${NAVDELTA_DATA_DIR:-./data}:/data:ro
+    - ${NAVDELTA_OUT_DIR:-./outputs}:/outputs
+    - ${NAVDELTA_MODEL_DIR:-./.hf_cache}:/models
+  shm_size: "2gb"
+
+services:
+  navdelta:
+    <<: *navdelta
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  navdelta-cpu:
+    <<: *navdelta
+    environment:
+      NAVDELTA_DEVICE: cpu

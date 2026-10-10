@@ -1,0 +1,102 @@
+{
+  "navdelta_version": "1.0.0",
+  "command": "navdelta verify",
+  "data": "/data",
+  "outputs": "/outputs",
+  "recordings": {
+    "before": "Myroomesh1",
+    "after": "Myroomesh2"
+  },
+  "approach": "voxel_diff",
+  "python": "3.12.3",
+  "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.36",
+  "stages": [
+    {
+      "stage": "alignment.align",
+      "seconds": 163.9
+    },
+    {
+      "stage": "alignment.qa_overlays",
+      "seconds": 3.7
+    },
+    {
+      "stage": "alignment.validate",
+      "seconds": 7.2
+    },
+    {
+      "stage": "change_map",
+      "seconds": 48.3
+    },
+    {
+      "stage": "qa_regions",
+      "seconds": 10.2
+    },
+    {
+      "stage": "objects",
+      "seconds": 18.1
+    },
+    {
+      "stage": "qa_objects",
+      "seconds": 8.1
+    },
+    {
+      "stage": "labels",
+      "seconds": 151.0
+    },
+    {
+      "stage": "landmarks",
+      "seconds": 188.2
+    },
+    {
+      "stage": "colours",
+      "seconds": 27.6
+    },
+    {
+      "stage": "describe",
+      "seconds": 0.1
+    },
+    {
+      "stage": "package",
+      "seconds": 13.8
+    }
+  ],
+  "result_hashes": {
+    "alignment/Myroomesh2_to_Myroomesh1_transform.json": "4c77cae8fc8b70e98f42be08422f1f37e6b11b5683fa0ca222964313270b4bf3",
+    "alignment/Myroomesh1_aligned_poses.jsonl": "a23ea8ce8032da800217f02d10826a904c5d74adaadc2be1bf243e9cd6afe299",
+    "alignment/Myroomesh2_aligned_poses.jsonl": "9964eb7362b5929e38763f7d7d58facc0a241f8a166c68d2cda5639d376b0531",
+    "voxel_diff/step1_change_mask": "0c1c5a6ca3c4127c40cd900204e02ad58195d3a349fee9611bc67f183267570e",
+    "voxel_diff/step2_objects_and_moves": "97cf4919a5c9219430ce3ef5b0c11adf2bf62a8d80c79d7f0d52aa38d061aae6",
+    "voxel_diff/step3_labels": "d00afb61f67f02c264aebc9a533ad3fbf863fff96865751ea6c4f17fc1ec4956",
+    "voxel_diff/step4a_landmarks": "2385a65b923bfd64d22328ba8950a01c302596b5a29f69275f020575a1ed16b1",
+    "voxel_diff/step4c_colours": "c732a5c20e9247dda18bdc9ba1018c75cdeacf6a292478ff905eb3c9e86bc51b",
+    "voxel_diff/step4b_descriptions": "2679e71a3199c83439a72cb3816545ae424535eaf729dc2244bf26ab74589089",
+    "voxel_diff/step5_changes_json": "3cb9cf6c43cf1bd3687e338ca4aaceb2e888974aaa18707eea0cb8171836da89"
+  },
+  "verification": {
+    "reproducible": true,
+    "run_1": {
+      "alignment/Myroomesh2_to_Myroomesh1_transform.json": "4c77cae8fc8b70e98f42be08422f1f37e6b11b5683fa0ca222964313270b4bf3",
+      "alignment/Myroomesh1_aligned_poses.jsonl": "a23ea8ce8032da800217f02d10826a904c5d74adaadc2be1bf243e9cd6afe299",
+      "alignment/Myroomesh2_aligned_poses.jsonl": "9964eb7362b5929e38763f7d7d58facc0a241f8a166c68d2cda5639d376b0531",
+      "voxel_diff/step1_change_mask": "0c1c5a6ca3c4127c40cd900204e02ad58195d3a349fee9611bc67f183267570e",
+      "voxel_diff/step2_objects_and_moves": "97cf4919a5c9219430ce3ef5b0c11adf2bf62a8d80c79d7f0d52aa38d061aae6",
+      "voxel_diff/step3_labels": "d00afb61f67f02c264aebc9a533ad3fbf863fff96865751ea6c4f17fc1ec4956",
+      "voxel_diff/step4a_landmarks": "2385a65b923bfd64d22328ba8950a01c302596b5a29f69275f020575a1ed16b1",
+      "voxel_diff/step4c_colours": "c732a5c20e9247dda18bdc9ba1018c75cdeacf6a292478ff905eb3c9e86bc51b",
+      "voxel_diff/step4b_descriptions": "2679e71a3199c83439a72cb3816545ae424535eaf729dc2244bf26ab74589089",
+      "voxel_diff/step5_changes_json": "3cb9cf6c43cf1bd3687e338ca4aaceb2e888974aaa18707eea0cb8171836da89"
+    },
+    "run_2": {
+      "alignment/Myroomesh2_to_Myroomesh1_transform.json": "4c77cae8fc8b70e98f42be08422f1f37e6b11b5683fa0ca222964313270b4bf3",
+      "alignment/Myroomesh1_aligned_poses.jsonl": "a23ea8ce8032da800217f02d10826a904c5d74adaadc2be1bf243e9cd6afe299",
+      "alignment/Myroomesh2_aligned_poses.jsonl": "9964eb7362b5929e38763f7d7d58facc0a241f8a166c68d2cda5639d376b0531",
+      "voxel_diff/step1_change_mask": "0c1c5a6ca3c4127c40cd900204e02ad58195d3a349fee9611bc67f183267570e",
+      "voxel_diff/step2_objects_and_moves": "97cf4919a5c9219430ce3ef5b0c11adf2bf62a8d80c79d7f0d52aa38d061aae6",
+      "voxel_diff/step3_labels": "d00afb61f67f02c264aebc9a533ad3fbf863fff96865751ea6c4f17fc1ec4956",
+      "voxel_diff/step4a_landmarks": "2385a65b923bfd64d22328ba8950a01c302596b5a29f69275f020575a1ed16b1",
+      "voxel_diff/step4c_colours": "c732a5c20e9247dda18bdc9ba1018c75cdeacf6a292478ff905eb3c9e86bc51b",
+      "voxel_diff/step4b_descriptions": "2679e71a3199c83439a72cb3816545ae424535eaf729dc2244bf26ab74589089",
+      "voxel_diff/step5_changes_json": "3cb9cf6c43cf1bd3687e338ca4aaceb2e888974aaa18707eea0cb8171836da89"
+    }
+  }
+}
