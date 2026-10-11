@@ -1,0 +1,171 @@
+# large_space as it was before approach 4's own tuning (approaches 2 and 3 already tuned): its first design.
+# Profile "large_space": warehouses, halls, open-plan floors (tens of metres across).
+# Same keys as room.toml; only values that depend on the size of the space change:
+#   - coarser voxels: 10 cm instead of 5 cm keeps a 40 x 20 x 10 m space at ~8 M cells
+#   - longer depth range (12 m) and range-proportional tolerances: depth error grows with range
+#   - larger objects (pallets, racks) and larger distances in relations and descriptions
+# Everything not listed keeps its room value.
+
+# ---------------------------------------------------------------- approach 1: voxel_diff
+[voxel_diff.change_map]
+VOXEL_M = 0.10
+DEPTH_STRIDE = 4                  # 4x fewer rays: each one is ~2.5x longer
+DEPTH_MAX_M = 12.0
+CARVE_MARGIN_M = 0.25
+CARVE_MARGIN_PER_M = 0.02
+PLANE_DISTANCE_M = 0.10
+MIN_PLANE_VOXELS = 500            # still ~5 m^2 of wall at 10 cm
+MIN_PLANE_COMPONENT_VOXELS = 125
+WALL_MIN_HEIGHT_M = 2.0
+HORIZONTAL_PLANE_Z_TOLERANCE_M = 0.30
+MIN_SHEET_VOXELS = 40
+SHEET_MIN_HEIGHT_M = 1.5
+SHEET_EXTENT_MARGIN_M = 0.40
+
+[voxel_diff.objects]
+OBJECT_MAX_FOOTPRINT_M = 2.5      # pallets, carts, shelf units
+OBJECT_MAX_HEIGHT_M = 2.5
+PANEL_MAX_THICKNESS_M = 0.30
+PANEL_COPLANAR_M = 0.20
+SHEET_ATTACH_TOLERANCE_M = 0.20
+SHEET_EXTENT_MARGIN_M = 0.40
+SHIFT_RANGE_M = 0.20
+SHIFT_STEP_M = 0.10
+FIT_TOLERANCE_M = 0.15
+HEIGHT_SCALE_M = 0.50
+PATH_SAMPLE_M = 0.05
+
+[voxel_diff.landmarks]
+FRAME_STRIDE = 6
+MIN_LANDMARK_VOXELS = 10          # ~0.1 m^2 at 10 cm
+MAX_LANDMARK_EXTENT_M = 8.0
+
+[voxel_diff.describe]
+NEXT_TO_M = 0.50
+NEAR_M = 1.50
+RELATION_CHANGE_M = 0.50
+RELATION_RANGE_M = 3.0
+ON_FLOOR_M = 0.30
+ELEVATED_M = 1.00
+SUPPORT_BELOW_M = 0.40
+TOUCH_M = 0.20
+AGAINST_WALL_M = 1.00
+
+[voxel_diff.package]
+ROOM_VOXEL_M = 0.05
+VIEW_DISTANCE_SCALE_M = 2.0
+
+# ---------------------------------------------------------------- approach 2: scene_graph
+[scene_graph.objects]
+MIN_OBSERVATIONS = 1              # tuned: a node seen once is kept (few views per object at this scale) ...
+MERGE_SIZE_RATIO = 1.0e9                 # tried 1.5 / 2.5 on the tuning pairs: no gain, so off
+VOXEL_M = 0.10
+NEXT_TO_M = 0.60
+ON_GAP_M = 0.25
+
+[scene_graph.diff]
+VOXEL_M = 0.10
+SEE_PAST_M = 0.15
+SEE_PAST_PER_M = 0.02             # 35 cm at 10 m
+SURFACE_M = 0.15
+SURFACE_PER_M = 0.02
+MIN_CHANGE_SIZE_M = 0.30
+MIN_CHANGE_OBS = 2                # ... but a change needs 2 views (tuning pairs: F1 0.16 -> 0.21)
+MOVE_SEM = 0.80                   # many identical items (boxes): a look-alike must be a close match ...
+GROUP_GAP_M = 0.3                # gone / appeared pieces closer than this are one object
+LABEL_BONUS = 0.10
+GONE_MIN = 0.60                   # share of a node's observed points seen empty to call it gone
+MOVE_MAX_M = 5.0                  # ... and nearby; farther pairs are reported as removed + added
+
+[scene_graph.describe]
+VOXEL_M = 0.10
+LANDMARK_MIN_SIZE_M = 1.0
+LANDMARK_RANGE_M = 5.0
+LANDMARK_CHANGE_M = 0.50
+
+# ---------------------------------------------------------------- approach 3: loop_outliers
+[loop_outliers.mine]
+INLIER_M = 0.15
+INLIER_PER_M = 0.03
+OUTLIER_M = 0.25                  # MASt3R depth error grows with range: the gap to call it moved grows too
+OUTLIER_PER_M = 0.05
+SEE_PAST_M = 0.15
+SEE_PAST_PER_M = 0.02
+SURFACE_M = 0.15
+SURFACE_PER_M = 0.02
+RANSAC_M = 0.10                   # tuned with the next two (tuning pairs: F1 0.25 -> 0.30)
+MIN_MATCHES = 50
+MAX_EXTENT_M = 4.0                # pallets, carts
+CELL_M = 0.15
+MIN_EVIDENCE = 20
+EXPLAINED_M = 0.40
+ABSORB_M = 1.00
+
+[loop_outliers.segment]
+PAIR_SEM = 0.80                   # many look-alike items: stricter pairing
+PAIR_SIZE_RATIO = 2.0
+ALONE_MIN_MATCHES = 60
+ALONE_MIN_PAIRS = 4
+
+# ---------------------------------------------------------------- shared reconstruction (approaches 2-4)
+[recon.reconstruct]
+KEYFRAME_EVERY = 2
+BASELINE_M = 0.60                 # depth reaches 10-20 m: a wider stereo baseline keeps parallax
+MIN_BASELINE_M = 0.20
+PARTNER_WINDOW = 10
+MV_ABS = 0.10
+RANSAC_M = 0.15
+PAIR_GATE_M = 1.50
+STEREO_GATE_M = 0.25
+
+[recon.reconstruct_rgbd]
+SENSOR_DEPTH_RANGE_M = [0.25, 12.0]  # as approach 1's large-space depth range
+SENSOR_EDGE_M = 0.20                # long-range and 8-bit depth (ChangeSim: ~20 cm steps) is not an edge
+SENSOR_EDGE_PER_M = 0.02
+SIGMA_SCALE = 0.005
+RANSAC_M = 0.10
+STEREO_GATE_M = 0.15
+
+# ---------------------------------------------------------------- approach 4: rgbd_fusion
+# Each stage starts from approach 2's / 3's large-space values; only the keys below differ.
+[rgbd_fusion.diff]
+SEE_PAST_M = 0.12
+SEE_PAST_PER_M = 0.015
+SURFACE_M = 0.12
+SURFACE_PER_M = 0.015
+
+[rgbd_fusion.mine]
+INLIER_M = 0.10
+INLIER_PER_M = 0.02
+OUTLIER_M = 0.25                  # as approach 3 (tuned): tighter gates add false outliers
+OUTLIER_PER_M = 0.05
+SEE_PAST_M = 0.12
+SEE_PAST_PER_M = 0.015
+SURFACE_M = 0.12
+SURFACE_PER_M = 0.015
+RANSAC_M = 0.08
+
+[rgbd_fusion.segment]
+ALONE_MIN_MATCHES = 0
+ALONE_MIN_PAIRS = 0
+
+[rgbd_fusion.fuse]
+VOXEL_M = 0.10
+ASSOC_M = 0.50
+MOVE_MIN_M = 0.30
+TURN_MIN_DEG = 30.0
+GRAPH_ALONE_EMPTY = 0.0
+GRAPH_ALONE_OBS = 0
+GRAPH_ALONE_SEM = 0.0
+GRAPH_ALONE_ROTATED = true
+ALONE_MIN_MATCHES = 60
+ALONE_MIN_PAIRS = 4
+VETO_PRESENT = 0.5
+NEXT_TO_M = 0.60
+ON_GAP_M = 0.25
+LANDMARK_MIN_SIZE_M = 1.0
+LANDMARK_RANGE_M = 5.0
+LANDMARK_CHANGE_M = 0.50
+
+[rgbd_fusion.package]
+ROOM_VOXEL_M = 0.05

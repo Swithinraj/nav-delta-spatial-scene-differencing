@@ -60,6 +60,11 @@ WALL_FEATURES = {"window", "door"}
 NOT_LANDMARKS = {"house", "room", "building", "person", "human face", "man", "woman", "wall", "floor", "ceiling"}
 CUBE = np.ones((3, 3, 3), dtype=bool)
 
+# Scale profile (navdelta/configs/*.toml): the values above are the room profile; a large space
+# overrides some of them. Applied before anything below derives from them.
+from navdelta import config  # noqa: E402
+PROFILE_SETTINGS = config.apply(globals(), "voxel_diff.landmarks")
+
 
 def back_project(frame: dict, mask: np.ndarray) -> np.ndarray:
     depth = frame["depth_m"][::DEPTH_STRIDE, ::DEPTH_STRIDE]

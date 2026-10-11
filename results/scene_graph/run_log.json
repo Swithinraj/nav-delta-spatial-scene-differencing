@@ -1,0 +1,58 @@
+{
+  "finished": "2026-10-11 16:09:24",
+  "navdelta_version": "1.0.0",
+  "command": "navdelta verify --approach scene_graph --data room_data --profile room --skip-shared",
+  "data": "room_data",
+  "outputs": "outputs",
+  "recordings": {
+    "before": "Myroomesh1",
+    "after": "Myroomesh2"
+  },
+  "approach": "scene_graph",
+  "python": "3.13.3",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "profile": {
+    "name": "room",
+    "file": "navdelta/configs/room.toml",
+    "reason": "chosen explicitly",
+    "sha256": "ea6d0f06b8bc77ee7adf5984d017e9cf87490a19ef3599e58818c729c2c33a50"
+  },
+  "stages": [
+    {
+      "stage": "objects",
+      "seconds": 913.6,
+      "gpu_peak_gb": 3.52
+    },
+    {
+      "stage": "diff",
+      "seconds": 8.8,
+      "gpu_peak_gb": 0.08
+    },
+    {
+      "stage": "describe",
+      "seconds": 0.0,
+      "gpu_peak_gb": 0.08
+    },
+    {
+      "stage": "package",
+      "seconds": 3.2,
+      "gpu_peak_gb": 0.08
+    }
+  ],
+  "total_seconds": 925.6,
+  "result_hashes": {
+    "scene_graph/step1_scene_graphs": "1493587c24ecefb4ed35594c05d8e4816ac27055c048b09b129297e571f8b577",
+    "scene_graph/step3_changes_json": "e0a1e81bbb10be60e39a105a26147c6324b35f404f4e677665604d2595e5c60c"
+  },
+  "verification": {
+    "reproducible": true,
+    "run_1": {
+      "scene_graph/step1_scene_graphs": "1493587c24ecefb4ed35594c05d8e4816ac27055c048b09b129297e571f8b577",
+      "scene_graph/step3_changes_json": "e0a1e81bbb10be60e39a105a26147c6324b35f404f4e677665604d2595e5c60c"
+    },
+    "run_2": {
+      "scene_graph/step1_scene_graphs": "1493587c24ecefb4ed35594c05d8e4816ac27055c048b09b129297e571f8b577",
+      "scene_graph/step3_changes_json": "e0a1e81bbb10be60e39a105a26147c6324b35f404f4e677665604d2595e5c60c"
+    }
+  }
+}

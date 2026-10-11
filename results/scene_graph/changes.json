@@ -1,0 +1,347 @@
+{
+  "schema_version": "1.0.0",
+  "title": "Changes between two phone recordings of the same room",
+  "recordings": {
+    "before": "Myroomesh1",
+    "after": "Myroomesh2"
+  },
+  "common_frame": "Myroomesh1 phone-tracking frame after the joint pose graph; metres; Z up; floor at z = 0",
+  "summary": "Between the two recordings, 3 objects moved (chair, fan, luggage and bags) and 1 object removed (divider).",
+  "counts": {
+    "moved": 3,
+    "removed": 1
+  },
+  "changes": [
+    {
+      "id": "M1",
+      "type": "moved",
+      "title": "chair moved 0.38 m",
+      "label": "chair",
+      "label_votes": {
+        "chair": 5,
+        "furniture": 3,
+        "jacket": 5,
+        "hat": 1
+      },
+      "description": "The chair was moved 0.38 m. Before, it was on the speaker and next to the curtain, the desk and the divider; now it is next to the curtain and the radiator. It is now further away from the clothes: 1.71 m from it, compared with 1.25 m before. It is now further away from the speaker: 0.71 m from it, compared with 0.30 m before.",
+      "before": {
+        "centroid_m": [
+          -2.8420000076293945,
+          -1.7009999752044678,
+          0.7480000257492065
+        ],
+        "bbox_min_m": [
+          -3.0999999046325684,
+          -2.25,
+          -0.05000000074505806
+        ],
+        "bbox_max_m": [
+          -2.4000000953674316,
+          -1.399999976158142,
+          1.2000000476837158
+        ],
+        "observations": 13
+      },
+      "after": {
+        "centroid_m": [
+          -3.2100000381469727,
+          -1.6039999723434448,
+          0.6010000109672546
+        ],
+        "bbox_min_m": [
+          -3.5,
+          -1.9500000476837158,
+          -0.10000000149011612
+        ],
+        "bbox_max_m": [
+          -2.75,
+          -1.25,
+          1.149999976158142
+        ],
+        "observations": 9
+      },
+      "motion": {
+        "translation_m": [
+          -0.36899998784065247,
+          0.09700000286102295,
+          -0.14800000190734863
+        ],
+        "distance_m": 0.382,
+        "rotation_deg": null
+      },
+      "relations": {
+        "before": [
+          "next to curtain",
+          "next to desk",
+          "next to divider",
+          "next to tube",
+          "on speaker"
+        ],
+        "after": [
+          "next to curtain",
+          "next to radiator"
+        ]
+      },
+      "arrow": {
+        "from": [
+          -2.8420000076293945,
+          -1.7009999752044678,
+          0.7480000257492065
+        ],
+        "to": [
+          -3.2100000381469727,
+          -1.6039999723434448,
+          0.6010000109672546
+        ]
+      }
+    },
+    {
+      "id": "M2",
+      "type": "moved",
+      "title": "fan moved 0.74 m",
+      "label": "fan",
+      "label_votes": {
+        "hat": 1,
+        "fan": 5,
+        "pipe": 1,
+        "tube": 1,
+        "carpet": 1,
+        "home appliance": 1
+      },
+      "description": "The fan was moved 0.74 m. Before, it was next to the carpet; now it is next to the broom, the desk and the divider. It is now closer to the laptop: 0.65 m from it, compared with 1.38 m before. It is now closer to the television: 0.52 m from it, compared with 1.25 m before.",
+      "before": {
+        "centroid_m": [
+          -2.251,
+          -0.842,
+          0.377
+        ],
+        "bbox_min_m": [
+          -2.35,
+          -0.95,
+          -0.05
+        ],
+        "bbox_max_m": [
+          -2.15,
+          -0.7,
+          0.8
+        ],
+        "observations": 9
+      },
+      "after": {
+        "centroid_m": [
+          -1.946,
+          -1.518,
+          0.375
+        ],
+        "bbox_min_m": [
+          -2.1,
+          -1.7,
+          -0.05
+        ],
+        "bbox_max_m": [
+          -1.85,
+          -1.4,
+          0.8
+        ],
+        "observations": 9
+      },
+      "motion": {
+        "translation_m": [
+          0.305,
+          -0.676,
+          -0.002
+        ],
+        "distance_m": 0.741,
+        "rotation_deg": null
+      },
+      "relations": {
+        "before": [
+          "next to carpet"
+        ],
+        "after": [
+          "next to broom",
+          "next to desk",
+          "next to divider",
+          "next to mat",
+          "next to pipe",
+          "next to water bottle"
+        ]
+      },
+      "arrow": {
+        "from": [
+          -2.251,
+          -0.842,
+          0.377
+        ],
+        "to": [
+          -1.946,
+          -1.518,
+          0.375
+        ]
+      }
+    },
+    {
+      "id": "M3",
+      "type": "moved",
+      "title": "luggage and bags moved 0.83 m",
+      "label": "luggage and bags",
+      "label_votes": {
+        "suitcase": 3,
+        "luggage and bags": 4,
+        "furniture": 1,
+        "guitar case": 1,
+        "divider": 1
+      },
+      "description": "The luggage and bags were moved 0.83 m. Before, they were next to the drawer, the lamp and the mat; now they are next to the curtain. They are now further away from the clothes: 2.67 m from it, compared with 0.98 m before. They are now further away from the drawer: 1.36 m from it, compared with 0.23 m before.",
+      "before": {
+        "centroid_m": [
+          -3.552000045776367,
+          -0.8320000171661377,
+          0.3869999945163727
+        ],
+        "bbox_min_m": [
+          -3.950000047683716,
+          -1.149999976158142,
+          -0.05000000074505806
+        ],
+        "bbox_max_m": [
+          -3.299999952316284,
+          -0.44999998807907104,
+          0.75
+        ],
+        "observations": 10
+      },
+      "after": {
+        "centroid_m": [
+          -4.036,
+          -1.51,
+          0.39
+        ],
+        "bbox_min_m": [
+          -4.25,
+          -1.75,
+          -0.05
+        ],
+        "bbox_max_m": [
+          -3.9,
+          -1.3,
+          0.75
+        ],
+        "observations": 3
+      },
+      "motion": {
+        "translation_m": [
+          -0.485,
+          -0.678,
+          0.003
+        ],
+        "distance_m": 0.834,
+        "rotation_deg": null
+      },
+      "relations": {
+        "before": [
+          "next to drawer",
+          "next to lamp",
+          "next to mat",
+          "next to paper"
+        ],
+        "after": [
+          "next to curtain"
+        ]
+      },
+      "arrow": {
+        "from": [
+          -3.552000045776367,
+          -0.8320000171661377,
+          0.3869999945163727
+        ],
+        "to": [
+          -4.036,
+          -1.51,
+          0.39
+        ]
+      }
+    },
+    {
+      "id": "OR1",
+      "type": "removed",
+      "title": "divider removed",
+      "label": "divider",
+      "label_votes": {
+        "board": 1,
+        "divider": 3
+      },
+      "description": "The divider that was next to the clothes is no longer there. The second recording looked through that spot and saw past it (94% of its points), and no similar object appeared elsewhere.",
+      "object": {
+        "centroid_m": [
+          -0.47099998593330383,
+          -0.2029999941587448,
+          0.5040000081062317
+        ],
+        "bbox_min_m": [
+          -0.6000000238418579,
+          -0.4000000059604645,
+          0.25
+        ],
+        "bbox_max_m": [
+          -0.25,
+          0.05000000074505806,
+          0.8500000238418579
+        ],
+        "observations": 4,
+        "present_in": "Myroomesh1"
+      },
+      "place": {
+        "near": [
+          "next to clothes"
+        ]
+      }
+    }
+  ],
+  "unconfirmed": [],
+  "scene_graphs": {
+    "Myroomesh1": {
+      "nodes": 77,
+      "edges": 251
+    },
+    "Myroomesh2": {
+      "nodes": 49,
+      "edges": 118
+    }
+  },
+  "models": [
+    {
+      "id": "florence-community/Florence-2-large",
+      "revision": "4271c66b88cdbc05735372ec13b2360108de5317",
+      "license": "MIT",
+      "use": "object proposals with names"
+    },
+    {
+      "id": "facebook/sam2.1-hiera-base-plus",
+      "revision": "b7320756a13354e7530a63935656d35b2f91a290",
+      "license": "Apache-2.0",
+      "use": "masks (boxes and point grid)"
+    },
+    {
+      "id": "google/siglip2-so400m-patch14-384",
+      "revision": "e8e487298228002f3d8a82e0cd5c8ea9c567f57f",
+      "license": "Apache-2.0",
+      "use": "appearance embeddings, zero-shot names, pair selection"
+    },
+    {
+      "id": "naver/MASt3R_ViTLarge_BaseDecoder_512_catmlpdpt_metric",
+      "revision": "pinned source f5209afc",
+      "license": "CC BY-NC-SA 4.0",
+      "use": "depth and cross-video matches (shared reconstruction)"
+    }
+  ],
+  "profile": {
+    "name": "room",
+    "file": "navdelta/configs/room.toml",
+    "reason": "chosen explicitly",
+    "sha256": "ea6d0f06b8bc77ee7adf5984d017e9cf87490a19ef3599e58818c729c2c33a50"
+  },
+  "learned_models_trained_or_finetuned": false,
+  "manual_labels_used": false,
+  "result_sha256": "e0a1e81bbb10be60e39a105a26147c6324b35f404f4e677665604d2595e5c60c"
+}

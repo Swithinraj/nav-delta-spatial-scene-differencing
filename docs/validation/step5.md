@@ -1,6 +1,6 @@
 # Step 5 validation: changes.json, before/after gallery and 3D viewer
 
-> Written while developing the pipeline on the provided recordings, in order. Later steps corrected some earlier readings; the corrections are marked in place rather than hidden. Paths such as `qa/…`, `objects/…`, `semantics/…` and `viewer/…` are inside `outputs/voxel_diff/` after `navdelta run`.
+> Written while developing the pipeline on our room recordings, in order. Later steps corrected some earlier readings; the corrections are marked in place rather than hidden. Paths such as `qa/…`, `objects/…`, `semantics/…` and `viewer/…` are inside `outputs/voxel_diff/` after `navdelta run`.
 
 Step 5 (`navdelta/approaches/voxel_diff/package.py`, run by `navdelta run`) packages Steps 1–4.
 No learned model runs here.

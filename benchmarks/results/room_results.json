@@ -1,0 +1,76 @@
+{
+ "scene_graph": {
+  "staged": 3,
+  "staged_found": 3,
+  "staged_exact": 3,
+  "found": {
+   "luggage (turned ~80°, moved ~0.6 m)": "M3",
+   "office chair (moved ~0.5 m)": "M1",
+   "tower fan (moved ~0.7 m)": "M2"
+  },
+  "other_claims": 1,
+  "extras": [
+   {
+    "id": "OR1",
+    "type": "removed",
+    "label": "divider"
+   }
+  ],
+  "summary": "Between the two recordings, 3 objects moved (chair, fan, luggage and bags) and 1 object removed (divider).",
+  "stages_seconds": {
+   "objects": 913.6,
+   "diff": 8.8,
+   "describe": 0.0,
+   "package": 3.2
+  },
+  "shared_seconds": null
+ },
+ "loop_outliers": {
+  "staged": 3,
+  "staged_found": 3,
+  "staged_exact": 3,
+  "found": {
+   "luggage (turned ~80°, moved ~0.6 m)": "M1",
+   "office chair (moved ~0.5 m)": "M2",
+   "tower fan (moved ~0.7 m)": "M3"
+  },
+  "other_claims": 0,
+  "extras": [],
+  "summary": "Between the two recordings, 3 objects moved (luggage, chair, fan).",
+  "stages_seconds": {
+   "mine": 2.2,
+   "segment": 21.9,
+   "context": 23.7,
+   "package": 3.4
+  },
+  "shared_seconds": null
+ },
+ "rgbd_fusion": {
+  "staged": 3,
+  "staged_found": 3,
+  "staged_exact": 3,
+  "found": {
+   "luggage (turned ~80°, moved ~0.6 m)": "M3",
+   "office chair (moved ~0.5 m)": "M1",
+   "tower fan (moved ~0.7 m)": "M2"
+  },
+  "other_claims": 1,
+  "extras": [
+   {
+    "id": "OA1",
+    "type": "added",
+    "label": "shelf"
+   }
+  ],
+  "summary": "Between the two recordings, 3 objects moved (chair, fan, luggage and bags) and 1 object added (shelf). 3 of 4 found by both detectors.",
+  "stages_seconds": {
+   "objects": 1075.5,
+   "diff": 10.0,
+   "mine": 1.5,
+   "segment": 20.1,
+   "fuse": 0.1,
+   "package": 2.8
+  },
+  "shared_seconds": 120.0
+ }
+}

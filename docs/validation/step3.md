@@ -1,6 +1,6 @@
 # Step 3 validation: open-vocabulary labels
 
-> Written while developing the pipeline on the provided recordings, in order. Later steps corrected some earlier readings; the corrections are marked in place rather than hidden. Paths such as `qa/…`, `objects/…`, `semantics/…` and `viewer/…` are inside `outputs/voxel_diff/` after `navdelta run`.
+> Written while developing the pipeline on our room recordings, in order. Later steps corrected some earlier readings; the corrections are marked in place rather than hidden. Paths such as `qa/…`, `objects/…`, `semantics/…` and `viewer/…` are inside `outputs/voxel_diff/` after `navdelta run`.
 
 Step 3 (`navdelta/approaches/voxel_diff/labels.py`, run by `navdelta run`) names every
 changed object. It uses only off-the-shelf open models: nothing is trained or

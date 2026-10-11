@@ -1,6 +1,8 @@
-# navdelta: one image for the whole pipeline (alignment, change detection, open-source
+# navdelta: one image for the whole pipeline (shared stages, all four approaches, open-source
 # models, viewer). Runs on Linux and on Windows (Docker Desktop, WSL 2 backend), with an
-# NVIDIA GPU (--gpus all) or on the CPU.
+# NVIDIA GPU (--gpus all) or on the CPU. Built once per default approach:
+#   nav-delta-voxel_diff, nav-delta-scene_graph, nav-delta-loop_outliers, nav-delta-rgbd_fusion
+#   (see docker-compose.yml)
 FROM python:3.12.3-slim-bookworm
 
 # Open3D needs these shared libraries even without a display.
@@ -33,6 +35,10 @@ RUN pip install -r requirements.txt
 COPY pyproject.toml README.md ./
 COPY navdelta ./navdelta
 RUN pip install --no-deps .
+
+# The approach this image runs by default (navdelta run --approach overrides it).
+ARG APPROACH=voxel_diff
+ENV NAVDELTA_APPROACH=${APPROACH}
 
 VOLUME ["/data", "/outputs", "/models"]
 ENTRYPOINT ["navdelta"]

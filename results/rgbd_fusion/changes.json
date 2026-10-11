@@ -1,0 +1,439 @@
+{
+  "schema_version": "1.0.0",
+  "approach": "rgbd_fusion",
+  "title": "Changes between two phone recordings of the same room",
+  "recordings": {
+    "before": "Myroomesh1",
+    "after": "Myroomesh2"
+  },
+  "common_frame": "Myroomesh1 tracking frame after the joint pose graph (RGB-D); metres; Z up; floor at z = 0",
+  "summary": "Between the two recordings, 3 objects moved (chair, fan, luggage and bags) and 1 object added (shelf). 3 of 4 found by both detectors.",
+  "counts": {
+    "moved": 3,
+    "added": 1
+  },
+  "changes": [
+    {
+      "id": "M1",
+      "type": "moved",
+      "title": "chair moved 0.50 m",
+      "label": "chair",
+      "description": "The chair was moved 0.50 m. Before, it was next to the curtain and the desk; now it is next to the curtain and the radiator. It is now closer to the container: 1.47 m from it, compared with 2.28 m before. It is now further away from the desk: 1.22 m from it, compared with 0.60 m before. Both detectors agree: the scene graphs (moved, ends alike 0.97) and 33 cross-video features from 8 view pairs (moved).",
+      "sentence": "The chair was moved 0.50 m. Before, it was next to the curtain and the desk; now it is next to the curtain and the radiator. It is now closer to the container: 1.47 m from it, compared with 2.28 m before. It is now further away from the desk: 1.22 m from it, compared with 0.60 m before.",
+      "evidence_text": "Both detectors agree: the scene graphs (moved, ends alike 0.97) and 33 cross-video features from 8 view pairs (moved).",
+      "found_by": [
+        "outliers",
+        "scene_graph"
+      ],
+      "confirmed": true,
+      "evidence": {
+        "scene_graph": [
+          {
+            "type": "moved",
+            "label": "chair",
+            "visibility_in_other": null,
+            "similarity": 0.968
+          }
+        ],
+        "outliers": [
+          {
+            "id": "M2",
+            "type": "moved",
+            "outlier_matches": 33,
+            "view_pairs": 8,
+            "paired_by_appearance": null
+          }
+        ]
+      },
+      "before": {
+        "centroid_m": [
+          -2.731,
+          -1.83,
+          0.622
+        ],
+        "bbox_min_m": [
+          -3.05,
+          -2.3,
+          0.25
+        ],
+        "bbox_max_m": [
+          -2.4,
+          -1.5,
+          1.2
+        ],
+        "observations": 19
+      },
+      "after": {
+        "centroid_m": [
+          -3.253,
+          -1.65,
+          0.713
+        ],
+        "bbox_min_m": [
+          -3.5,
+          -2.0,
+          0.35
+        ],
+        "bbox_max_m": [
+          -2.75,
+          -1.3,
+          1.2
+        ],
+        "observations": 15
+      },
+      "motion": {
+        "translation_m": [
+          -0.522,
+          0.18,
+          0.091
+        ],
+        "distance_m": 0.502,
+        "rotation_deg": 23.1,
+        "measured_by": "its own matched features (RANSAC)"
+      },
+      "relations": {
+        "before": [
+          "next to curtain",
+          "next to desk"
+        ],
+        "after": [
+          "next to curtain",
+          "next to radiator"
+        ]
+      },
+      "arrow": {
+        "from": [
+          -2.731,
+          -1.83,
+          0.622
+        ],
+        "to": [
+          -3.253,
+          -1.65,
+          0.713
+        ]
+      }
+    },
+    {
+      "id": "M2",
+      "type": "moved",
+      "title": "fan moved 0.95 m",
+      "label": "fan",
+      "description": "The fan was moved 0.95 m. Before, it was next to the carpet and the divider; now it is next to the backpack, the broom and the desk. It is now closer to the television: 0.06 m from it, compared with 1.33 m before. It is now closer to the laptop: 0.36 m from it, compared with 1.52 m before. Both detectors agree: the scene graphs (moved, ends alike 0.96) and 330 cross-video features from 36 view pairs (moved).",
+      "sentence": "The fan was moved 0.95 m. Before, it was next to the carpet and the divider; now it is next to the backpack, the broom and the desk. It is now closer to the television: 0.06 m from it, compared with 1.33 m before. It is now closer to the laptop: 0.36 m from it, compared with 1.52 m before.",
+      "evidence_text": "Both detectors agree: the scene graphs (moved, ends alike 0.96) and 330 cross-video features from 36 view pairs (moved).",
+      "found_by": [
+        "outliers",
+        "scene_graph"
+      ],
+      "confirmed": true,
+      "evidence": {
+        "scene_graph": [
+          {
+            "type": "moved",
+            "label": "fan",
+            "visibility_in_other": null,
+            "similarity": 0.965
+          }
+        ],
+        "outliers": [
+          {
+            "id": "M3",
+            "type": "moved",
+            "outlier_matches": 330,
+            "view_pairs": 36,
+            "paired_by_appearance": 0.892
+          }
+        ]
+      },
+      "before": {
+        "centroid_m": [
+          -2.232,
+          -0.873,
+          0.381
+        ],
+        "bbox_min_m": [
+          -2.4,
+          -1.0,
+          0.0
+        ],
+        "bbox_max_m": [
+          -2.1,
+          -0.75,
+          0.85
+        ],
+        "observations": 7
+      },
+      "after": {
+        "centroid_m": [
+          -1.8669999837875366,
+          -1.7480000257492065,
+          0.38100001215934753
+        ],
+        "bbox_min_m": [
+          -2.0999999046325684,
+          -2.3499999046325684,
+          -0.05000000074505806
+        ],
+        "bbox_max_m": [
+          -1.399999976158142,
+          -1.4500000476837158,
+          0.8500000238418579
+        ],
+        "observations": 11
+      },
+      "motion": {
+        "translation_m": [
+          0.365,
+          -0.874,
+          -0.0
+        ],
+        "distance_m": 0.948,
+        "rotation_deg": null,
+        "measured_by": "object centres (scene graph)"
+      },
+      "relations": {
+        "before": [
+          "next to carpet",
+          "next to divider"
+        ],
+        "after": [
+          "next to backpack",
+          "next to broom",
+          "next to desk",
+          "next to mat",
+          "next to office chair",
+          "next to television"
+        ]
+      },
+      "arrow": {
+        "from": [
+          -2.232,
+          -0.873,
+          0.381
+        ],
+        "to": [
+          -1.8669999837875366,
+          -1.7480000257492065,
+          0.38100001215934753
+        ]
+      }
+    },
+    {
+      "id": "M3",
+      "type": "moved",
+      "title": "luggage and bags moved 0.55 m, turned ~86°",
+      "label": "luggage and bags",
+      "description": "The luggage and bags were moved 0.55 m and turned by about 86°. Before, they were next to the lamp, the mat and the paper; now they are next to the bathroom stall door, the curtain and the office chair. They are now further away from the bed: 2.77 m from it, compared with 1.09 m before. They are now further away from the clothes: 2.14 m from it, compared with 1.12 m before. Both detectors agree: the scene graphs (moved, ends alike 0.91) and 879 cross-video features from 8 view pairs (moved).",
+      "sentence": "The luggage and bags were moved 0.55 m and turned by about 86°. Before, they were next to the lamp, the mat and the paper; now they are next to the bathroom stall door, the curtain and the office chair. They are now further away from the bed: 2.77 m from it, compared with 1.09 m before. They are now further away from the clothes: 2.14 m from it, compared with 1.12 m before.",
+      "evidence_text": "Both detectors agree: the scene graphs (moved, ends alike 0.91) and 879 cross-video features from 8 view pairs (moved).",
+      "found_by": [
+        "outliers",
+        "scene_graph"
+      ],
+      "confirmed": true,
+      "evidence": {
+        "scene_graph": [
+          {
+            "type": "moved",
+            "label": "luggage and bags",
+            "visibility_in_other": null,
+            "similarity": 0.912
+          }
+        ],
+        "outliers": [
+          {
+            "id": "M1",
+            "type": "moved",
+            "outlier_matches": 879,
+            "view_pairs": 8,
+            "paired_by_appearance": null
+          }
+        ]
+      },
+      "before": {
+        "centroid_m": [
+          -3.594,
+          -0.931,
+          0.408
+        ],
+        "bbox_min_m": [
+          -3.9,
+          -1.2,
+          -0.05
+        ],
+        "bbox_max_m": [
+          -3.35,
+          -0.65,
+          0.8
+        ],
+        "observations": 11
+      },
+      "after": {
+        "centroid_m": [
+          -4.033,
+          -1.49,
+          0.464
+        ],
+        "bbox_min_m": [
+          -4.35,
+          -1.7,
+          0.0
+        ],
+        "bbox_max_m": [
+          -3.85,
+          -1.3,
+          0.8
+        ],
+        "observations": 7
+      },
+      "motion": {
+        "translation_m": [
+          -0.439,
+          -0.559,
+          0.056
+        ],
+        "distance_m": 0.549,
+        "rotation_deg": 85.7,
+        "measured_by": "its own matched features (RANSAC)"
+      },
+      "relations": {
+        "before": [
+          "next to lamp",
+          "next to mat",
+          "next to paper"
+        ],
+        "after": [
+          "next to bathroom stall door",
+          "next to curtain",
+          "next to office chair"
+        ]
+      },
+      "arrow": {
+        "from": [
+          -3.594,
+          -0.931,
+          0.408
+        ],
+        "to": [
+          -4.033,
+          -1.49,
+          0.464
+        ]
+      }
+    },
+    {
+      "id": "OA1",
+      "type": "added",
+      "title": "shelf added",
+      "label": "shelf",
+      "description": "A shelf appeared, away from other furniture; it was not there before. Found by the scene graphs (added, 60% of it seen through).",
+      "sentence": "A shelf appeared, away from other furniture; it was not there before.",
+      "evidence_text": "Found by the scene graphs (added, 60% of it seen through).",
+      "found_by": [
+        "scene_graph"
+      ],
+      "confirmed": false,
+      "evidence": {
+        "scene_graph": [
+          {
+            "type": "added",
+            "label": "shelf",
+            "visibility_in_other": {
+              "observed": 0.604,
+              "empty": 0.605,
+              "surface": 0.395
+            },
+            "similarity": null
+          }
+        ]
+      },
+      "object": {
+        "centroid_m": [
+          -1.497,
+          -2.14,
+          1.83
+        ],
+        "bbox_min_m": [
+          -1.8,
+          -2.5,
+          1.7
+        ],
+        "bbox_max_m": [
+          -1.15,
+          -1.65,
+          1.95
+        ],
+        "observations": 3,
+        "present_in": "Myroomesh2"
+      },
+      "place": {
+        "near": []
+      }
+    }
+  ],
+  "dropped": [
+    {
+      "source": "outliers",
+      "type": "added",
+      "label": "pillow",
+      "why": "outliers only, weak (48 matches, 11 view pairs)",
+      "at_m": [
+        -2.03,
+        0.405,
+        0.645
+      ]
+    }
+  ],
+  "detectors": {
+    "scene_graph": 4,
+    "outliers": 4,
+    "loop_closure": {
+      "matches": 161060,
+      "static_share": 0.814,
+      "outliers": 7312,
+      "moved_surfaces": 1010,
+      "vanished": 2776,
+      "appeared": 798
+    }
+  },
+  "reconstruction": {
+    "depth_source": "sensor",
+    "runtime_s": 105.8
+  },
+  "models": [
+    {
+      "id": "florence-community/Florence-2-large",
+      "revision": "4271c66b88cdbc05735372ec13b2360108de5317",
+      "license": "MIT",
+      "use": "object proposals with names"
+    },
+    {
+      "id": "facebook/sam2.1-hiera-base-plus",
+      "revision": "b7320756a13354e7530a63935656d35b2f91a290",
+      "license": "Apache-2.0",
+      "use": "masks (boxes and point grid)"
+    },
+    {
+      "id": "google/siglip2-so400m-patch14-384",
+      "revision": "e8e487298228002f3d8a82e0cd5c8ea9c567f57f",
+      "license": "Apache-2.0",
+      "use": "appearance embeddings, zero-shot names, pair selection"
+    },
+    {
+      "id": "naver/MASt3R_ViTLarge_BaseDecoder_512_catmlpdpt_metric",
+      "revision": "pinned source f5209afc",
+      "license": "CC BY-NC-SA 4.0",
+      "use": "depth and cross-video matches (shared reconstruction)"
+    }
+  ],
+  "profile": {
+    "name": "room",
+    "file": "navdelta/configs/room.toml",
+    "reason": "chosen explicitly",
+    "sha256": "ea6d0f06b8bc77ee7adf5984d017e9cf87490a19ef3599e58818c729c2c33a50"
+  },
+  "learned_models_trained_or_finetuned": false,
+  "manual_labels_used": false,
+  "result_sha256": "7a040996e362cfebc1e2f539665a239d0d2adc879ed7a3700aa63eb554c39f18"
+}

@@ -1,0 +1,55 @@
+{
+  "finished": "2026-10-11 18:45:08",
+  "navdelta_version": "1.0.0",
+  "command": "navdelta verify --approach loop_outliers --data room_data --profile room --skip-shared",
+  "data": "room_data",
+  "outputs": "outputs",
+  "recordings": {
+    "before": "Myroomesh1",
+    "after": "Myroomesh2"
+  },
+  "approach": "loop_outliers",
+  "python": "3.13.3",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "profile": {
+    "name": "room",
+    "file": "navdelta/configs/room.toml",
+    "reason": "chosen explicitly",
+    "sha256": "ea6d0f06b8bc77ee7adf5984d017e9cf87490a19ef3599e58818c729c2c33a50"
+  },
+  "stages": [
+    {
+      "stage": "mine",
+      "seconds": 2.2,
+      "gpu_peak_gb": 0.08
+    },
+    {
+      "stage": "segment",
+      "seconds": 21.9,
+      "gpu_peak_gb": 3.04
+    },
+    {
+      "stage": "context",
+      "seconds": 23.7,
+      "gpu_peak_gb": 2.5
+    },
+    {
+      "stage": "package",
+      "seconds": 3.4,
+      "gpu_peak_gb": 0.08
+    }
+  ],
+  "total_seconds": 51.2,
+  "result_hashes": {
+    "loop_outliers/step2_changes_json": "fba166f6c3167c549beb9eb5de58f802ec7b551dc7bad193968b3b8edfae7f47"
+  },
+  "verification": {
+    "reproducible": true,
+    "run_1": {
+      "loop_outliers/step2_changes_json": "fba166f6c3167c549beb9eb5de58f802ec7b551dc7bad193968b3b8edfae7f47"
+    },
+    "run_2": {
+      "loop_outliers/step2_changes_json": "fba166f6c3167c549beb9eb5de58f802ec7b551dc7bad193968b3b8edfae7f47"
+    }
+  }
+}

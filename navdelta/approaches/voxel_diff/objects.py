@@ -97,6 +97,11 @@ MIN_ELONGATION_FOR_AXIS = 1.3
 CUBE = np.ones((3, 3, 3), dtype=bool)
 EPS = 1e-6                          # extents are multiples of the voxel size; compare them float-safely
 
+# Scale profile (navdelta/configs/*.toml): the values above are the room profile; a large space
+# overrides some of them. Applied before anything below derives from them.
+from navdelta import config  # noqa: E402
+PROFILE_SETTINGS = config.apply(globals(), "voxel_diff.objects")
+
 
 class Grid:
     def __init__(self, data):

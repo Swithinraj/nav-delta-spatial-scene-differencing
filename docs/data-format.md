@@ -32,6 +32,14 @@ data/
 Other files in a Polycam export (`images/`, `depth/`, `confidence/`, `polycam.mp4`,
 `roomplan.json`, …) may be present. They are ignored.
 
+What each approach reads (`navdelta check-data --approach NAME` checks exactly these):
+
+| Approach | RGB keyframes + cameras | raw ARKit cameras | depth keyframes | `mesh_info.json` + PLY |
+|---|---|---|---|---|
+| 1 `voxel_diff` | yes | yes | yes | yes |
+| 2 `scene_graph`, 3 `loop_outliers` | yes | yes (tracking) | no: depth comes from MASt3R | no |
+| 4 `rgbd_fusion` | yes | yes (tracking) | yes | no |
+
 ## File contents
 
 | File | Content | Used for |

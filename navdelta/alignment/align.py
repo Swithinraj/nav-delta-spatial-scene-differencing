@@ -47,6 +47,13 @@ YUP_TO_ZUP = np.array([
 inside_workspace = inside
 
 
+def json_number(value):
+    """numpy scalars in the report (a numpy bool from a comparison, for example) as plain JSON."""
+    if isinstance(value, np.generic):
+        return value.item()
+    raise TypeError(f"Object of type {type(value).__name__} is not JSON serializable")
+
+
 def outputs_relative(path: Path) -> str:
     return str(path.resolve().relative_to(OUTPUTS)).replace("\\", "/")
 
@@ -1166,7 +1173,7 @@ def main() -> None:
             "aligned_pose_directories": pose_directories,
         },
     }
-    (output_dir / "alignment_report.json").write_text(json.dumps(report, indent=2))
+    (output_dir / "alignment_report.json").write_text(json.dumps(report, indent=2, default=json_number))
     print(json.dumps({
         "status": report["status"],
         "transform": final_transform.tolist(),

@@ -53,7 +53,7 @@ Every frame is exported. Each frame carries a `pose_support` label (high,
 medium, or VIO-only/low), and the change detection uses this label to weight
 frames.
 
-## Result on the provided recordings
+## Result on our room recordings
 
 | | Myroomesh1 | Myroomesh2 |
 |---|---:|---:|

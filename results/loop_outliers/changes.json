@@ -1,0 +1,370 @@
+{
+  "schema_version": "1.0.0",
+  "approach": "loop_outliers",
+  "recordings": {
+    "before": "Myroomesh1",
+    "after": "Myroomesh2"
+  },
+  "common_frame": "Myroomesh1 tracking frame after the joint pose graph; metres; Z up; floor at z = 0",
+  "summary": "Between the two recordings, 3 objects moved (luggage, chair, fan).",
+  "counts": {
+    "moved": 3
+  },
+  "changes": [
+    {
+      "id": "M1",
+      "type": "moved",
+      "label": "luggage",
+      "title": "luggage moved 0.54 m",
+      "description": "The luggage was moved 0.54 m and turned by about 80°. Before, it was away from other furniture; now it is next to the curtain. Evidence: measured from 437 of its own features matched across both videos; seen in 9 view pairs.",
+      "sentence": "The luggage was moved 0.54 m and turned by about 80°.",
+      "evidence_text": "Evidence: measured from 437 of its own features matched across both videos; seen in 9 view pairs.",
+      "before": {
+        "centroid_m": [
+          -3.589,
+          -0.918,
+          0.386
+        ],
+        "bbox_min_m": [
+          -3.761,
+          -1.119,
+          0.06
+        ],
+        "bbox_max_m": [
+          -3.418,
+          -0.716,
+          0.713
+        ],
+        "views": [
+          {
+            "frame": "216400551786",
+            "sam_score": 0.921,
+            "mask_px": 25843
+          },
+          {
+            "frame": "216398951652",
+            "sam_score": 0.896,
+            "mask_px": 20743
+          }
+        ]
+      },
+      "after": {
+        "centroid_m": [
+          -4.035,
+          -1.52,
+          0.368
+        ],
+        "bbox_min_m": [
+          -4.148,
+          -1.656,
+          0.037
+        ],
+        "bbox_max_m": [
+          -3.923,
+          -1.383,
+          0.699
+        ],
+        "views": [
+          {
+            "frame": "217142871055",
+            "sam_score": 0.914,
+            "mask_px": 32497
+          },
+          {
+            "frame": "217140639573",
+            "sam_score": 0.959,
+            "mask_px": 26817
+          }
+        ]
+      },
+      "motion": {
+        "distance_m": 0.542,
+        "turn_deg": 79.5
+      },
+      "evidence": {
+        "outlier_matches": 437,
+        "view_pairs": 9,
+        "paired_by_appearance": null
+      },
+      "context": {
+        "before": {
+          "relations": [],
+          "landmark_gaps_m": {}
+        },
+        "after": {
+          "relations": [
+            "next to the curtain"
+          ],
+          "landmark_gaps_m": {
+            "curtain": 0.23,
+            "radiator": 0.47
+          }
+        }
+      }
+    },
+    {
+      "id": "M2",
+      "type": "moved",
+      "label": "chair",
+      "title": "chair moved 0.51 m",
+      "description": "The chair was moved 0.51 m. Before, it was next to the desk and next to the drawer; now it is next to the curtain and next to the radiator. Evidence: measured from 101 of its own features matched across both videos; seen in 6 view pairs.",
+      "sentence": "The chair was moved 0.51 m.",
+      "evidence_text": "Evidence: measured from 101 of its own features matched across both videos; seen in 6 view pairs.",
+      "before": {
+        "centroid_m": [
+          -2.689,
+          -2.013,
+          0.51
+        ],
+        "bbox_min_m": [
+          -2.933,
+          -2.179,
+          0.369
+        ],
+        "bbox_max_m": [
+          -2.444,
+          -1.847,
+          0.651
+        ],
+        "views": [
+          {
+            "frame": "216386283915",
+            "sam_score": 0.971,
+            "mask_px": 42387
+          },
+          {
+            "frame": "216384633774",
+            "sam_score": 0.897,
+            "mask_px": 39561
+          }
+        ]
+      },
+      "after": {
+        "centroid_m": [
+          -3.358,
+          -1.581,
+          0.792
+        ],
+        "bbox_min_m": [
+          -3.483,
+          -1.83,
+          0.5
+        ],
+        "bbox_max_m": [
+          -3.232,
+          -1.333,
+          1.084
+        ],
+        "views": [
+          {
+            "frame": "217121438818",
+            "sam_score": 0.894,
+            "mask_px": 27462
+          },
+          {
+            "frame": "217141705356",
+            "sam_score": 0.957,
+            "mask_px": 55705
+          }
+        ]
+      },
+      "motion": {
+        "distance_m": 0.512,
+        "turn_deg": 19.7
+      },
+      "evidence": {
+        "outlier_matches": 101,
+        "view_pairs": 6,
+        "paired_by_appearance": null
+      },
+      "context": {
+        "before": {
+          "relations": [
+            "next to the desk",
+            "next to the drawer"
+          ],
+          "landmark_gaps_m": {
+            "computer keyboard": 0.42,
+            "computer mouse": 0.42,
+            "curtain": 0.37,
+            "desk": 0.28,
+            "drawer": 0.28,
+            "television": 0.84,
+            "loudspeaker": 0.35
+          }
+        },
+        "after": {
+          "relations": [
+            "next to the curtain",
+            "next to the radiator"
+          ],
+          "landmark_gaps_m": {
+            "curtain": 0.21,
+            "radiator": 0.28
+          }
+        }
+      }
+    },
+    {
+      "id": "M3",
+      "type": "moved",
+      "label": "fan",
+      "title": "fan moved 0.74 m",
+      "description": "The fan was moved 0.74 m. Before, it was away from other furniture; now it is next to the bottle, next to the desk, next to the mousepad and next to the remote control. It is now closer to the backpack: 0.43 m, compared with 1.07 m before. Evidence: it vanished from one place and an object that looks the same (similarity 0.88) appeared at the other; seen in 27 view pairs.",
+      "sentence": "The fan was moved 0.74 m.",
+      "evidence_text": "Evidence: it vanished from one place and an object that looks the same (similarity 0.88) appeared at the other; seen in 27 view pairs.",
+      "before": {
+        "centroid_m": [
+          -2.227,
+          -0.821,
+          0.303
+        ],
+        "bbox_min_m": [
+          -2.307,
+          -0.895,
+          -0.002
+        ],
+        "bbox_max_m": [
+          -2.147,
+          -0.747,
+          0.608
+        ],
+        "views": [
+          {
+            "frame": "216332945997",
+            "sam_score": 0.767,
+            "mask_px": 7606
+          },
+          {
+            "frame": "216337846421",
+            "sam_score": 0.979,
+            "mask_px": 1934
+          }
+        ]
+      },
+      "after": {
+        "centroid_m": [
+          -1.962,
+          -1.517,
+          0.42
+        ],
+        "bbox_min_m": [
+          -2.034,
+          -1.589,
+          0.057
+        ],
+        "bbox_max_m": [
+          -1.89,
+          -1.446,
+          0.783
+        ],
+        "views": [
+          {
+            "frame": "217111946671",
+            "sam_score": 0.797,
+            "mask_px": 13198
+          },
+          {
+            "frame": "217096043150",
+            "sam_score": 0.902,
+            "mask_px": 15640
+          }
+        ]
+      },
+      "motion": {
+        "distance_m": 0.745,
+        "turn_deg": null
+      },
+      "evidence": {
+        "outlier_matches": 904,
+        "view_pairs": 27,
+        "paired_by_appearance": 0.878
+      },
+      "context": {
+        "before": {
+          "relations": [],
+          "landmark_gaps_m": {
+            "blanket": 0.69,
+            "pillow": 1.07,
+            "backpack": 1.07
+          }
+        },
+        "after": {
+          "relations": [
+            "next to the bottle",
+            "next to the desk",
+            "next to the mousepad",
+            "next to the remote control"
+          ],
+          "landmark_gaps_m": {
+            "backpack": 0.43,
+            "bottle": 0.17,
+            "computer keyboard": 0.31,
+            "computer monitor": 0.72,
+            "desk": 0.0,
+            "laptop": 0.5,
+            "loudspeaker": 0.55,
+            "remote control": 0.07,
+            "television": 0.59,
+            "book": 0.31,
+            "mousepad": 0.1
+          }
+        }
+      }
+    }
+  ],
+  "dropped": [
+    {
+      "id": "OA2",
+      "type": "added",
+      "why": "weak evidence alone (23 matches, 3 view pairs)"
+    },
+    {
+      "id": "OA3",
+      "type": "added",
+      "why": "weak evidence alone (42 matches, 5 view pairs)"
+    },
+    {
+      "id": "OA4",
+      "type": "added",
+      "why": "weak evidence alone (25 matches, 4 view pairs)"
+    }
+  ],
+  "loop_closure": {
+    "matches": 179381,
+    "static_share": 0.893,
+    "outliers": 6183,
+    "moved_surfaces": 685,
+    "vanished": 1362,
+    "appeared": 1677
+  },
+  "models": [
+    {
+      "id": "facebook/sam2.1-hiera-base-plus",
+      "revision": "b7320756a13354e7530a63935656d35b2f91a290",
+      "license": "Apache-2.0",
+      "use": "outline of each changed object, prompted with its outlier pixels"
+    },
+    {
+      "id": "google/siglip2-so400m-patch14-384",
+      "revision": "e8e487298228002f3d8a82e0cd5c8ea9c567f57f",
+      "license": "Apache-2.0",
+      "use": "zero-shot names, removed/added pairing"
+    },
+    {
+      "id": "naver/MASt3R_ViTLarge_BaseDecoder_512_catmlpdpt_metric",
+      "revision": "pinned source f5209afc",
+      "license": "CC BY-NC-SA 4.0",
+      "use": "depth and cross-video matches (shared reconstruction)"
+    }
+  ],
+  "profile": {
+    "name": "room",
+    "file": "navdelta/configs/room.toml",
+    "reason": "chosen explicitly",
+    "sha256": "ea6d0f06b8bc77ee7adf5984d017e9cf87490a19ef3599e58818c729c2c33a50"
+  },
+  "learned_models_trained_or_finetuned": false,
+  "manual_labels_used": false,
+  "result_sha256": "fba166f6c3167c549beb9eb5de58f802ec7b551dc7bad193968b3b8edfae7f47"
+}

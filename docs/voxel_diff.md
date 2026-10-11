@@ -149,7 +149,7 @@ first use and run one at a time in fp16 to fit a 4 GB GPU, or in fp32 on a CPU.
   the most similar viewpoint. Score × exp(−distance / 0.6 m) × exp(−angle / 30°).
 - **The 3D viewer:** both rooms, changes, arrows and photos, in one static page.
 
-## Results on the provided recordings
+## Results on our room recordings
 
 Staged changes (`room_changes.txt`), all found:
 
@@ -188,6 +188,14 @@ Several thresholds were set while looking at this scene, where the answer was
 known. The validation notes say which ones. None of these rules is needed to
 find the three staged moves: every version found them. The rules remove false
 or unsupported claims.
+
+## Large spaces
+
+The same stages run on warehouses with the `large_space` profile ([`profiles.md`](profiles.md)).
+It uses 10 cm voxels, depth up to 12 m, tolerances that grow with range, and pallet-sized
+objects. On five ChangeSim warehouse pairs its micro-averaged F1 is 0.31 on the two tuning pairs
+and 0.38 on the three held-out ones. Of the four approaches, it finds the most removed objects
+(30 %). Details: [`benchmark.md`](benchmark.md).
 
 ## Limitations
 

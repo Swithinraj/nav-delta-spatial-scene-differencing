@@ -1,0 +1,68 @@
+{
+  "finished": "2026-10-11 18:43:10",
+  "navdelta_version": "1.0.0",
+  "command": "navdelta verify --approach rgbd_fusion --data room_data --profile room --skip-shared",
+  "data": "room_data",
+  "outputs": "outputs",
+  "recordings": {
+    "before": "Myroomesh1",
+    "after": "Myroomesh2"
+  },
+  "approach": "rgbd_fusion",
+  "python": "3.13.3",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "profile": {
+    "name": "room",
+    "file": "navdelta/configs/room.toml",
+    "reason": "chosen explicitly",
+    "sha256": "ea6d0f06b8bc77ee7adf5984d017e9cf87490a19ef3599e58818c729c2c33a50"
+  },
+  "stages": [
+    {
+      "stage": "objects",
+      "seconds": 1075.5,
+      "gpu_peak_gb": 3.52
+    },
+    {
+      "stage": "diff",
+      "seconds": 10.0,
+      "gpu_peak_gb": 0.08
+    },
+    {
+      "stage": "mine",
+      "seconds": 1.5,
+      "gpu_peak_gb": 0.08
+    },
+    {
+      "stage": "segment",
+      "seconds": 20.1,
+      "gpu_peak_gb": 3.04
+    },
+    {
+      "stage": "fuse",
+      "seconds": 0.1,
+      "gpu_peak_gb": 0.08
+    },
+    {
+      "stage": "package",
+      "seconds": 2.8,
+      "gpu_peak_gb": 0.08
+    }
+  ],
+  "total_seconds": 1110.0,
+  "result_hashes": {
+    "rgbd_fusion/step1_scene_graphs": "fce3eba6414d4da553b9a5036071780b9631c3d0c2d1f7c4749c61df9d9bf34e",
+    "rgbd_fusion/step5_changes_json": "7a040996e362cfebc1e2f539665a239d0d2adc879ed7a3700aa63eb554c39f18"
+  },
+  "verification": {
+    "reproducible": true,
+    "run_1": {
+      "rgbd_fusion/step1_scene_graphs": "fce3eba6414d4da553b9a5036071780b9631c3d0c2d1f7c4749c61df9d9bf34e",
+      "rgbd_fusion/step5_changes_json": "7a040996e362cfebc1e2f539665a239d0d2adc879ed7a3700aa63eb554c39f18"
+    },
+    "run_2": {
+      "rgbd_fusion/step1_scene_graphs": "fce3eba6414d4da553b9a5036071780b9631c3d0c2d1f7c4749c61df9d9bf34e",
+      "rgbd_fusion/step5_changes_json": "7a040996e362cfebc1e2f539665a239d0d2adc879ed7a3700aa63eb554c39f18"
+    }
+  }
+}

@@ -1,31 +1,75 @@
-# docker compose run --rm navdelta run          (NVIDIA GPU)
-# docker compose run --rm navdelta-cpu run      (no GPU)
+# One image per approach (same code, a different default approach):
+#   docker compose run --rm voxel_diff run          LiDAR approach            (NVIDIA GPU)
+#   docker compose run --rm scene_graph run         RGB scene-graph approach
+#   docker compose run --rm loop_outliers run       RGB loop-closure-outlier approach
+#   docker compose run --rm rgbd_fusion run         RGB-D fusion of scene graphs and outliers
+#   docker compose run --rm <approach>-cpu run      the same without a GPU
 #
 # Folders (override with environment variables):
 #   NAVDELTA_DATA_DIR   recordings, mounted read-only   (default ./data)
 #   NAVDELTA_OUT_DIR    generated results               (default ./outputs)
 #   NAVDELTA_MODEL_DIR  downloaded model weights         (default ./.hf_cache)
 x-navdelta: &navdelta
-  build: .
-  image: nav-delta-voxel_diff:1.0.0
   volumes:
     - ${NAVDELTA_DATA_DIR:-./data}:/data:ro
     - ${NAVDELTA_OUT_DIR:-./outputs}:/outputs
     - ${NAVDELTA_MODEL_DIR:-./.hf_cache}:/models
   shm_size: "2gb"
 
-services:
-  navdelta:
-    <<: *navdelta
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu]
+x-gpu: &gpu
+  deploy:
+    resources:
+      reservations:
+        devices:
+          - driver: nvidia
+            count: all
+            capabilities: [gpu]
 
-  navdelta-cpu:
+services:
+  voxel_diff:
+    <<: [*navdelta, *gpu]
+    build: {context: ., args: {APPROACH: voxel_diff}}
+    image: nav-delta-voxel_diff:1.0.0
+
+  voxel_diff-cpu:
     <<: *navdelta
+    build: {context: ., args: {APPROACH: voxel_diff}}
+    image: nav-delta-voxel_diff:1.0.0
+    environment:
+      NAVDELTA_DEVICE: cpu
+
+  scene_graph:
+    <<: [*navdelta, *gpu]
+    build: {context: ., args: {APPROACH: scene_graph}}
+    image: nav-delta-scene_graph:1.0.0
+
+  scene_graph-cpu:
+    <<: *navdelta
+    build: {context: ., args: {APPROACH: scene_graph}}
+    image: nav-delta-scene_graph:1.0.0
+    environment:
+      NAVDELTA_DEVICE: cpu
+
+  loop_outliers:
+    <<: [*navdelta, *gpu]
+    build: {context: ., args: {APPROACH: loop_outliers}}
+    image: nav-delta-loop_outliers:1.0.0
+
+  loop_outliers-cpu:
+    <<: *navdelta
+    build: {context: ., args: {APPROACH: loop_outliers}}
+    image: nav-delta-loop_outliers:1.0.0
+    environment:
+      NAVDELTA_DEVICE: cpu
+
+  rgbd_fusion:
+    <<: [*navdelta, *gpu]
+    build: {context: ., args: {APPROACH: rgbd_fusion}}
+    image: nav-delta-rgbd_fusion:1.0.0
+
+  rgbd_fusion-cpu:
+    <<: *navdelta
+    build: {context: ., args: {APPROACH: rgbd_fusion}}
+    image: nav-delta-rgbd_fusion:1.0.0
     environment:
       NAVDELTA_DEVICE: cpu

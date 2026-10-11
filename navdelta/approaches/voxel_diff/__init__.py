@@ -23,6 +23,7 @@ import json
 from pathlib import Path
 
 NAME = "voxel_diff"
+REQUIRES = "alignment"
 TITLE = "Visibility-aware voxel differencing + open-vocabulary labelling"
 
 STAGES = [

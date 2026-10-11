@@ -1,0 +1,352 @@
+{
+ "voxel_diff": {
+  "tuned": {
+   "tuning": {
+    "pairs": 2,
+    "claims": 142,
+    "tp": 55,
+    "gt": 157,
+    "found": 41,
+    "precision": 0.3873239436619718,
+    "recall": 0.2611464968152866,
+    "f1": 0.3119596043439164,
+    "seconds": 2237.5499999999997
+   },
+   "held-out": {
+    "pairs": 3,
+    "claims": 273,
+    "tp": 107,
+    "gt": 239,
+    "found": 87,
+    "precision": 0.39194139194139194,
+    "recall": 0.36401673640167365,
+    "f1": 0.37746330386829935,
+    "seconds": 4309.533333333334
+   },
+   "all": {
+    "pairs": 5,
+    "claims": 415,
+    "tp": 162,
+    "gt": 396,
+    "found": 128,
+    "precision": 0.39036144578313253,
+    "recall": 0.32323232323232326,
+    "f1": 0.3536394024148987,
+    "seconds": 3480.7400000000002
+   }
+  },
+  "v1_vs_tuned": {
+   "tuning": {
+    "v1": {
+     "pairs": 2,
+     "claims": 72,
+     "tp": 31,
+     "gt": 157,
+     "found": 30,
+     "precision": 0.4305555555555556,
+     "recall": 0.1910828025477707,
+     "f1": 0.2646933257435606,
+     "seconds": 4771.6
+    },
+    "tuned": {
+     "pairs": 2,
+     "claims": 142,
+     "tp": 55,
+     "gt": 157,
+     "found": 41,
+     "precision": 0.3873239436619718,
+     "recall": 0.2611464968152866,
+     "f1": 0.3119596043439164,
+     "seconds": 2237.5499999999997
+    }
+   },
+   "held-out": {
+    "v1": {
+     "pairs": 3,
+     "claims": 135,
+     "tp": 67,
+     "gt": 239,
+     "found": 64,
+     "precision": 0.4962962962962963,
+     "recall": 0.26778242677824265,
+     "f1": 0.34786841358049725,
+     "seconds": 5130.033333333334
+    },
+    "tuned": {
+     "pairs": 3,
+     "claims": 273,
+     "tp": 107,
+     "gt": 239,
+     "found": 87,
+     "precision": 0.39194139194139194,
+     "recall": 0.36401673640167365,
+     "f1": 0.37746330386829935,
+     "seconds": 4309.533333333334
+    }
+   }
+  }
+ },
+ "scene_graph": {
+  "tuned": {
+   "tuning": {
+    "pairs": 2,
+    "claims": 47,
+    "tp": 18,
+    "gt": 157,
+    "found": 22,
+    "precision": 0.3829787234042553,
+    "recall": 0.14012738853503184,
+    "f1": 0.20518134715025907,
+    "seconds": 2795.2
+   },
+   "held-out": {
+    "pairs": 3,
+    "claims": 56,
+    "tp": 22,
+    "gt": 239,
+    "found": 24,
+    "precision": 0.39285714285714285,
+    "recall": 0.100418410041841,
+    "f1": 0.1599515298394426,
+    "seconds": 2305.0333333333333
+   },
+   "all": {
+    "pairs": 5,
+    "claims": 103,
+    "tp": 40,
+    "gt": 396,
+    "found": 46,
+    "precision": 0.3883495145631068,
+    "recall": 0.11616161616161616,
+    "f1": 0.1788317620760035,
+    "seconds": 2501.1
+   }
+  },
+  "v1_vs_tuned": {
+   "tuning": {
+    "v1": null,
+    "tuned": null
+   },
+   "held-out": {
+    "v1": null,
+    "tuned": null
+   }
+  }
+ },
+ "loop_outliers": {
+  "tuned": {
+   "tuning": {
+    "pairs": 2,
+    "claims": 75,
+    "tp": 41,
+    "gt": 157,
+    "found": 40,
+    "precision": 0.5466666666666666,
+    "recall": 0.25477707006369427,
+    "f1": 0.3475680830772492,
+    "seconds": 3144.05
+   },
+   "held-out": {
+    "pairs": 3,
+    "claims": 184,
+    "tp": 85,
+    "gt": 239,
+    "found": 84,
+    "precision": 0.46195652173913043,
+    "recall": 0.3514644351464435,
+    "f1": 0.39920606077548854,
+    "seconds": 2876.433333333333
+   },
+   "all": {
+    "pairs": 5,
+    "claims": 259,
+    "tp": 126,
+    "gt": 396,
+    "found": 124,
+    "precision": 0.4864864864864865,
+    "recall": 0.31313131313131315,
+    "f1": 0.3810174120860362,
+    "seconds": 2983.48
+   }
+  },
+  "v1_vs_tuned": {
+   "tuning": {
+    "v1": null,
+    "tuned": null
+   },
+   "held-out": {
+    "v1": null,
+    "tuned": null
+   }
+  }
+ },
+ "rgbd_fusion": {
+  "tuned": {
+   "tuning": {
+    "pairs": 2,
+    "claims": 87,
+    "tp": 57,
+    "gt": 157,
+    "found": 51,
+    "precision": 0.6551724137931034,
+    "recall": 0.3248407643312102,
+    "f1": 0.4343343792021515,
+    "seconds": 1580.15
+   },
+   "held-out": {
+    "pairs": 3,
+    "claims": 143,
+    "tp": 108,
+    "gt": 239,
+    "found": 102,
+    "precision": 0.7552447552447552,
+    "recall": 0.42677824267782427,
+    "f1": 0.5453735333432348,
+    "seconds": 1882.2333333333333
+   },
+   "all": {
+    "pairs": 5,
+    "claims": 230,
+    "tp": 165,
+    "gt": 396,
+    "found": 153,
+    "precision": 0.717391304347826,
+    "recall": 0.38636363636363635,
+    "f1": 0.5022381378692927,
+    "seconds": 1761.4
+   }
+  },
+  "v1_vs_tuned": {
+   "tuning": {
+    "v1": {
+     "pairs": 2,
+     "claims": 74,
+     "tp": 49,
+     "gt": 157,
+     "found": 47,
+     "precision": 0.6621621621621622,
+     "recall": 0.29936305732484075,
+     "f1": 0.412317608092382,
+     "seconds": 1574.85
+    },
+    "tuned": {
+     "pairs": 2,
+     "claims": 87,
+     "tp": 57,
+     "gt": 157,
+     "found": 51,
+     "precision": 0.6551724137931034,
+     "recall": 0.3248407643312102,
+     "f1": 0.4343343792021515,
+     "seconds": 1580.15
+    }
+   },
+   "held-out": {
+    "v1": {
+     "pairs": 3,
+     "claims": 108,
+     "tp": 85,
+     "gt": 239,
+     "found": 87,
+     "precision": 0.7870370370370371,
+     "recall": 0.36401673640167365,
+     "f1": 0.49779542930227866,
+     "seconds": 1873.7666666666667
+    },
+    "tuned": {
+     "pairs": 3,
+     "claims": 143,
+     "tp": 108,
+     "gt": 239,
+     "found": 102,
+     "precision": 0.7552447552447552,
+     "recall": 0.42677824267782427,
+     "f1": 0.5453735333432348,
+     "seconds": 1882.2333333333333
+    }
+   }
+  }
+ },
+ "room": {
+  "scene_graph": {
+   "staged": 3,
+   "staged_found": 3,
+   "staged_exact": 3,
+   "found": {
+    "luggage (turned ~80\u00b0, moved ~0.6 m)": "M3",
+    "office chair (moved ~0.5 m)": "M1",
+    "tower fan (moved ~0.7 m)": "M2"
+   },
+   "other_claims": 1,
+   "extras": [
+    {
+     "id": "OR1",
+     "type": "removed",
+     "label": "divider"
+    }
+   ],
+   "summary": "Between the two recordings, 3 objects moved (chair, fan, luggage and bags) and 1 object removed (divider).",
+   "stages_seconds": {
+    "objects": 913.6,
+    "diff": 8.8,
+    "describe": 0.0,
+    "package": 3.2
+   },
+   "shared_seconds": null
+  },
+  "loop_outliers": {
+   "staged": 3,
+   "staged_found": 3,
+   "staged_exact": 3,
+   "found": {
+    "luggage (turned ~80\u00b0, moved ~0.6 m)": "M1",
+    "office chair (moved ~0.5 m)": "M2",
+    "tower fan (moved ~0.7 m)": "M3"
+   },
+   "other_claims": 0,
+   "extras": [],
+   "summary": "Between the two recordings, 3 objects moved (luggage, chair, fan).",
+   "stages_seconds": {
+    "mine": 2.2,
+    "segment": 21.9,
+    "context": 23.7,
+    "package": 3.4
+   },
+   "shared_seconds": null
+  },
+  "rgbd_fusion": {
+   "staged": 3,
+   "staged_found": 3,
+   "staged_exact": 3,
+   "found": {
+    "luggage (turned ~80\u00b0, moved ~0.6 m)": "M3",
+    "office chair (moved ~0.5 m)": "M1",
+    "tower fan (moved ~0.7 m)": "M2"
+   },
+   "other_claims": 1,
+   "extras": [
+    {
+     "id": "OA1",
+     "type": "added",
+     "label": "shelf"
+    }
+   ],
+   "summary": "Between the two recordings, 3 objects moved (chair, fan, luggage and bags) and 1 object added (shelf). 3 of 4 found by both detectors.",
+   "stages_seconds": {
+    "objects": 1075.5,
+    "diff": 10.0,
+    "mine": 1.5,
+    "segment": 20.1,
+    "fuse": 0.1,
+    "package": 2.8
+   },
+   "shared_seconds": 120.0
+  },
+  "voxel_diff": {
+   "staged_found": 3,
+   "staged_exact": 3,
+   "other_claims": 5,
+   "note": "hand-checked; own LiDAR frame"
+  }
+ }
+}

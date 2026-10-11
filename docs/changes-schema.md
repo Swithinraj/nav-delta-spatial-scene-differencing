@@ -50,9 +50,16 @@ Types:
 | `changed_at_landmark` | part of a static piece of furniture changed | `object`, `place` |
 | `depth_only` | depth differs, but both recordings' photos show the same object | `object`, `place` |
 | `small_changes` | changes smaller than the detection floor, listed only | `objects` |
+| `rotated` | object turned where it stands (approaches 2 and 4) | as `moved` |
 
-Approaches may add their own keys (`voxel_diff` adds `evidence` and
-`label_evidence`). Readers should ignore keys they don't know.
+Approaches may add their own keys. Readers should ignore keys they don't know.
+
+| Approach | Adds |
+|---|---|
+| `voxel_diff` | `evidence`, `label_evidence` per change |
+| `scene_graph` | `label_votes` per change; top level `unconfirmed` (objects seen by one recording only) and `scene_graphs` (node and edge counts) |
+| `loop_outliers` | `evidence` (outlier matches, view pairs, look-alike score), `sentence`, `evidence_text` per change; top level `approach`, `dropped` (with the reason) and `loop_closure` (match statistics) |
+| `rgbd_fusion` | per change `found_by` (`scene_graph`, `outliers` or both), `confirmed` (both detectors), `evidence` (each detector's own evidence), `motion.measured_by`; top level `approach`, `dropped` (with the reason), `detectors` and `reconstruction` |
 
 ## Viewer data
 

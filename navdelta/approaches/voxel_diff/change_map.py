@@ -104,6 +104,12 @@ SHEET_MIN_HEIGHT_M = 1.0
 SHEET_EXTENT_MARGIN_M = 0.20
 MIN_REGION_VOXELS = 10
 
+# Scale profile (navdelta/configs/*.toml): the values above are the room profile; a large space
+# overrides some of them. Applied before anything below derives from them.
+from navdelta import config  # noqa: E402
+PROFILE_SETTINGS = config.apply(globals(), "voxel_diff.change_map")
+SAMPLE_STEP_M = VOXEL_M * 0.5
+
 CUBE = np.ones((3, 3, 3), dtype=bool)
 
 

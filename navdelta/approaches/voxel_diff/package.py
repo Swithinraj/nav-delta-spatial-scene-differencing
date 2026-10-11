@@ -48,6 +48,11 @@ MIN_CROP_PX = 240
 PHOTO_SIZE = (480, 640)            # upright width x height
 JPEG_QUALITY = 85
 
+# Scale profile (navdelta/configs/*.toml): the values above are the room profile; a large space
+# overrides some of them. Applied before anything below derives from them.
+from navdelta import config  # noqa: E402
+PROFILE_SETTINGS = config.apply(globals(), "voxel_diff.package")
+
 BGR = {"old": (61, 38, 215), "new": (75, 158, 27), "surface": (0, 161, 230), "shift": (179, 79, 122),
        "depth": (150, 128, 110)}
 

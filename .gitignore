@@ -6,6 +6,9 @@
 # Everything the pipeline generates
 /outputs/
 
+# Benchmark downloads, converted pairs and runs (benchmarks/paths.py); results/ is kept
+/benchmarks/work/
+
 # Model weights (downloaded automatically on first run) and environments
 /.hf_cache*/
 /.venv*/

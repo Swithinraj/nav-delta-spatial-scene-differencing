@@ -73,3 +73,45 @@ def check_data(data: Path, names: list[str]) -> bool:
             print(f"  {role:<6} {name}: ok, {summary['frames']} keyframes, "
                   f"PLY {summary['ply_bytes'] / 1e6:.1f} MB")
     return ok
+
+
+def check_rgb_data(data: Path, names: list[str], depth: bool = False) -> bool:
+    """The RGB approaches (scene_graph, loop_outliers) need only keyframe images + the phone's tracking:
+    <name>_imgs/keyframes/images/<frame>.jpg (or corrected_images/) and keyframes/cameras/<frame>.json
+    (or <name>_rawdata/keyframes/cameras/). rgbd_fusion (depth=True) also needs the depth keyframes:
+    keyframes/corrected_depth/<frame>.Clean.png."""
+    ok = True
+    print(f"Data folder: {data}")
+    if len(names) != 2:
+        print(f"  expected two recordings, found {names}")
+        return False
+    for role, name in zip(("before", "after"), names):
+        keyframes = data / f"{name}_imgs" / "keyframes"
+        images = next((keyframes / f for f in ("images", "corrected_images") if (keyframes / f).is_dir()), None)
+        cameras = next((d for d in (keyframes / "cameras", data / f"{name}_rawdata" / "keyframes" / "cameras")
+                        if d.is_dir()), None)
+        problems = []
+        if images is None:
+            problems.append(f"no {keyframes / 'images'}")
+        if cameras is None:
+            problems.append(f"no {keyframes / 'cameras'}")
+        if not problems:
+            stems = sorted(p.stem for p in images.glob("*.jpg"))
+            missing = [s for s in stems if not (cameras / f"{s}.json").is_file()]
+            if not stems:
+                problems.append(f"no .jpg keyframes in {images}")
+            if missing:
+                problems.append(f"{len(missing)} keyframes without a camera JSON (first: {missing[0]})")
+            if depth:
+                no_depth = [s for s in stems if not (keyframes / "corrected_depth" / f"{s}.Clean.png").is_file()]
+                if no_depth:
+                    problems.append(f"{len(no_depth)} keyframes without corrected_depth/<frame>.Clean.png "
+                                    f"(first: {no_depth[0]})")
+            if stems and not missing:
+                camera = json.loads((cameras / f"{stems[0]}.json").read_text())
+                absent = [key for key in REQUIRED_POSE_KEYS if key not in camera]
+                if absent:
+                    problems.append(f"camera JSON lacks keys {absent}")
+        print(f"  {role} {name}: " + ("ok, " + f"{len(stems)} keyframes" if not problems else "; ".join(problems)))
+        ok &= not problems
+    return ok

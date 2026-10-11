@@ -1,0 +1,694 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NavDelta Room Diff</title>
+<meta name="description" content="What changed between two phone scans of the same room: moves, nudges and depth-only differences, in 3D and in before/after photos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #eceff3;
+    --panel: #ffffff;
+    --panel-2: #f5f7fa;
+    --ink: #161a21;
+    --muted: #586172;
+    --line: #d5dae2;
+    --canvas: #e2e6ec;
+    --focus: #2f5bd3;
+    --old: #d7263d;
+    --new: #1b9e4b;
+    --surface: #c98a00;
+    --shift: #7a4fb3;
+    --depth: #607089;
+    --edge: #0f7f81;
+    --arrow: #2f5bd3;
+    --chip-ink: #ffffff;
+    --shadow: 0 1px 2px rgba(22, 26, 33, 0.06), 0 6px 18px rgba(22, 26, 33, 0.08);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1015;
+      --panel: #141920;
+      --panel-2: #1a2029;
+      --ink: #e6e9ef;
+      --muted: #9aa4b4;
+      --line: #27303c;
+      --canvas: #090b0f;
+      --focus: #6d93f5;
+      --old: #f0566b;
+      --new: #3cc874;
+      --surface: #f2b51c;
+      --shift: #a07de0;
+      --depth: #8fa0b8;
+      --edge: #2cb7b9;
+      --arrow: #6d93f5;
+      --chip-ink: #0d1015;
+      --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1015;
+    --panel: #141920;
+    --panel-2: #1a2029;
+    --ink: #e6e9ef;
+    --muted: #9aa4b4;
+    --line: #27303c;
+    --canvas: #090b0f;
+    --focus: #6d93f5;
+    --old: #f0566b;
+    --new: #3cc874;
+    --surface: #f2b51c;
+    --shift: #a07de0;
+    --depth: #8fa0b8;
+    --edge: #2cb7b9;
+    --arrow: #6d93f5;
+    --chip-ink: #0d1015;
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.5 "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+    padding-inline: 16px;
+    padding-block: 0 16px;
+  }
+  .mono, .facts td, .chip, .stat b { font-family: "IBM Plex Mono", ui-monospace, "Cascadia Mono", monospace; font-variant-numeric: tabular-nums; }
+
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 18px;
+    padding-block: 16px 12px;
+  }
+  header h1 { margin: 0; font-size: 21px; font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
+  header .sub { color: var(--muted); font-size: 14px; }
+  .stats { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-left: auto; font-size: 13px; color: var(--muted); }
+  .stat b { color: var(--ink); font-weight: 500; }
+
+  .app {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 400px);
+    gap: 14px;
+    height: calc(100vh - 86px);
+    min-height: 520px;
+  }
+  .stage {
+    position: relative;
+    background: var(--canvas);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    min-height: 0;
+  }
+  #canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+  #labels { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+
+  .toolbar {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    pointer-events: none;
+  }
+  .toolbar > * { pointer-events: auto; }
+  .group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 4px 6px;
+    box-shadow: var(--shadow);
+    font-size: 13px;
+  }
+  .group .name { color: var(--muted); padding-left: 4px; }
+  .seg { display: flex; gap: 2px; }
+  button {
+    font: inherit;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 4px 10px;
+    cursor: pointer;
+  }
+  button:hover { background: var(--panel-2); }
+  button[aria-pressed="true"] { background: var(--ink); color: var(--panel); }
+  button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  input[type="range"] { width: 110px; accent-color: var(--arrow); }
+  label.check { display: flex; align-items: center; gap: 6px; padding: 2px 6px; cursor: pointer; }
+  label.check input { accent-color: var(--arrow); margin: 0; }
+  .cut-value { min-width: 46px; text-align: right; color: var(--muted); }
+
+  .legend {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    max-width: calc(100% - 24px);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: var(--muted);
+    box-shadow: var(--shadow);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+  .hint {
+    position: absolute; right: 12px; bottom: 12px; font-size: 12px; color: var(--muted);
+    background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px;
+  }
+  @media (max-width: 1180px) { .hint { display: none; } }
+
+  .tag {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    pointer-events: auto;
+    cursor: pointer;
+    white-space: nowrap;
+    font: 500 12px/1 "IBM Plex Mono", ui-monospace, monospace;
+    color: var(--chip-ink);
+    background: var(--kind);
+    border-radius: 999px;
+    padding: 4px 8px;
+    box-shadow: var(--shadow);
+    border: 0;
+  }
+  .tag.dim { opacity: 0.35; }
+  .tag.sel { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .lm {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+    text-shadow: 0 0 3px var(--canvas), 0 0 3px var(--canvas);
+  }
+
+  aside {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .summary { padding: 14px 16px 12px; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--muted); }
+  .summary p { margin: 0; max-width: 65ch; }
+  .list { overflow-y: auto; padding: 8px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 12px;
+    cursor: pointer;
+    background: var(--panel);
+    display: grid;
+    gap: 6px;
+  }
+  .card:hover { background: var(--panel-2); }
+  .card.sel { border-color: var(--kind); box-shadow: inset 3px 0 0 var(--kind); background: var(--panel-2); }
+  .card .top { display: flex; align-items: center; gap: 8px; }
+  .chip {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--chip-ink);
+    background: var(--kind);
+    border-radius: 5px;
+    padding: 2px 6px;
+  }
+  .card h3 { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.3; text-wrap: balance; }
+  .kind { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); margin-left: auto; white-space: nowrap; }
+  .flag { font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px; width: fit-content; }
+  .desc { margin: 0; font-size: 13.5px; color: var(--muted); max-width: 65ch; }
+  .card:not(.sel) .desc { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .detail { display: none; gap: 10px; }
+  .card.sel .detail { display: grid; }
+  .photos { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .photos figure { margin: 0; display: grid; gap: 4px; }
+  .photos img { width: 100%; max-width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 6px; border: 1px solid var(--line); background: var(--panel-2); }
+  .photos figcaption { font-size: 11px; color: var(--muted); letter-spacing: 0.04em; text-transform: uppercase; }
+  .note { font-size: 12px; color: var(--muted); margin: 0; }
+  .facts { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+  .facts td { padding: 4px 0; border-top: 1px solid var(--line); vertical-align: top; }
+  .facts td:first-child { font-family: "IBM Plex Sans", sans-serif; color: var(--muted); padding-right: 12px; white-space: nowrap; }
+  .about { border-top: 1px solid var(--line); padding: 10px 16px 14px; font-size: 12px; color: var(--muted); }
+  .about summary { cursor: pointer; color: var(--ink); font-weight: 500; }
+  .about ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 3px; }
+  .about code { font-family: "IBM Plex Mono", monospace; font-size: 11px; overflow-wrap: anywhere; }
+  .loading { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 14px; }
+
+  @media (max-width: 860px) {
+    .app { grid-template-columns: 1fr; height: auto; }
+    .stage { height: 62vh; min-height: 380px; }
+    aside { max-height: none; }
+    .list { overflow: visible; }
+    .stats { margin-left: 0; }
+    .hint { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>NavDelta Room Diff</h1>
+  <span class="sub" id="subtitle">Two phone recordings of one space, aligned and compared voxel by voxel</span>
+  <div class="stats" id="stats"></div>
+</header>
+
+<main class="app">
+  <section class="stage" aria-label="3D view of the room">
+    <canvas id="canvas"></canvas>
+    <div id="labels"></div>
+    <div class="loading" id="loading">Loading point clouds…</div>
+    <div class="toolbar">
+      <div class="group" role="group" aria-label="Recording">
+        <span class="name">Recording</span>
+        <div class="seg">
+          <button id="scan-before" aria-pressed="false">Before</button>
+          <button id="scan-after" aria-pressed="true">After</button>
+          <button id="scan-both" aria-pressed="false">Both</button>
+        </div>
+      </div>
+      <div class="group">
+        <label class="check" for="cut">Cut at</label>
+        <input id="cut" type="range" min="0.3" max="2.6" step="0.05" value="1.4" aria-label="Cut-away height above the floor">
+        <span class="cut-value mono" id="cut-value">1.40 m</span>
+      </div>
+      <div class="group">
+        <label class="check"><input id="fade" type="checkbox"> Fade room</label>
+        <label class="check"><input id="furniture" type="checkbox" checked> Furniture</label>
+      </div>
+      <div class="group">
+        <button id="reset">Reset view</button>
+      </div>
+    </div>
+    <div class="legend" id="legend"></div>
+    <div class="hint">Drag to orbit · right-drag to pan · scroll to zoom</div>
+  </section>
+
+  <aside aria-label="Changes">
+    <div class="summary"><p id="summary"></p></div>
+    <div class="list" id="list"></div>
+    <details class="about">
+      <summary>How this was made</summary>
+      <ul id="about"></ul>
+    </details>
+  </aside>
+</main>
+
+<script src="data/changes.js"></script>
+<script src="data/room_before.js"></script>
+<script src="data/room_after.js"></script>
+<script type="importmap">
+{ "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+const DATA = window.CHANGE_DATA;
+const ROOMS = window.ROOM_CLOUDS || {};
+const css = (name) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const KIND = {
+  moved:               { label: "moved",          token: "--arrow" },
+  shifted:             { label: "nudged",         token: "--shift" },
+  removed:             { label: "left its spot",  token: "--old" },
+  added:               { label: "appeared",       token: "--new" },
+  changed_at_landmark: { label: "furniture edge", token: "--edge" },
+  depth_only:          { label: "depth only",     token: "--depth" },
+  surface_changed:     { label: "surface",        token: "--surface" },
+  small_changes:       { label: "tiny",           token: "--muted" },
+};
+const ROLE_TOKEN = {
+  old: "--old", new: "--new", shift_old: "--shift", shift_new: "--shift", surface: "--surface",
+  landmark_change: "--edge", depth_only: "--depth", small: "--muted",
+};
+
+// ---------- decoding ----------
+function bytes(b64) {
+  const raw = atob(b64);
+  const out = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+  return out;
+}
+function decode(enc) {
+  const q = new Uint16Array(bytes(enc.positions).buffer);
+  const pos = new Float32Array(enc.count * 3);
+  for (let i = 0; i < enc.count; i++) {
+    for (let k = 0; k < 3; k++) pos[i * 3 + k] = enc.origin[k] + q[i * 3 + k] * enc.scale[k];
+  }
+  let col = null;
+  if (enc.colors) {
+    const c = bytes(enc.colors);
+    col = new Float32Array(c.length);
+    for (let i = 0; i < c.length; i++) col[i] = c[i] / 255;
+  }
+  return { pos, col };
+}
+
+// ---------- scene ----------
+const canvas = document.getElementById("canvas");
+const stage = canvas.parentElement;
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.localClippingEnabled = true;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, 1, 0.05, 50);
+camera.up.set(0, 0, 1);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = !reduceMotion;
+controls.dampingFactor = 0.08;
+
+const floorZ = DATA.floor_z;
+const [lo, hi] = DATA.bounds;
+const centre = new THREE.Vector3((lo[0] + hi[0]) / 2, (lo[1] + hi[1]) / 2, floorZ + 0.6);
+const cutPlane = new THREE.Plane(new THREE.Vector3(0, 0, -1), floorZ + 1.4);
+
+function applyTheme() {
+  scene.background = new THREE.Color(css("--canvas"));
+  for (const item of changeObjects) {
+    for (const p of item.points) p.material.color.set(css(ROLE_TOKEN[p.userData.role]));
+    if (item.arrow) item.arrow.material.color.set(css(item.change.type === "shifted" ? "--shift" : "--arrow"));
+  }
+  for (const card of document.querySelectorAll("[data-kind]")) {
+    card.style.setProperty("--kind", css(KIND[card.dataset.kind].token));
+  }
+}
+
+const roomPoints = {};
+for (const key of ["before", "after"]) {
+  if (!ROOMS[key]) continue;
+  const { pos, col } = decode(ROOMS[key]);
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+  geometry.setAttribute("color", new THREE.BufferAttribute(col, 3));
+  const material = new THREE.PointsMaterial({ size: 0.022, vertexColors: true, clippingPlanes: [cutPlane],
+                                              transparent: true, opacity: 1 });
+  roomPoints[key] = new THREE.Points(geometry, material);
+  scene.add(roomPoints[key]);
+}
+
+// A solid arrow (shaft + head): WebGL ignores line widths, so line arrows vanish.
+function makeArrow(from, to) {
+  const dir = to.clone().sub(from);
+  const length = dir.length();
+  const head = Math.min(0.14, length * 0.4);
+  const material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 1 });
+  const group = new THREE.Group();
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, Math.max(length - head, 0.001), 12), material);
+  shaft.position.y = (length - head) / 2;
+  const cone = new THREE.Mesh(new THREE.ConeGeometry(0.045, head, 16), material);
+  cone.position.y = length - head / 2;
+  group.add(shaft, cone);
+  group.position.copy(from);
+  group.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize());
+  group.material = material;
+  group.renderOrder = 3;
+  return group;
+}
+
+const changeObjects = [];
+for (const change of DATA.changes) {
+  const item = { change, points: [], box: new THREE.Box3() };
+  for (const part of change.parts) {
+    const { pos } = decode(part);
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    geometry.computeBoundingBox();
+    item.box.union(geometry.boundingBox);
+    const material = new THREE.PointsMaterial({ size: 0.036, color: 0xffffff, transparent: true, opacity: 1,
+                                                clippingPlanes: [cutPlane] });
+    const points = new THREE.Points(geometry, material);
+    points.userData.role = part.role;
+    points.renderOrder = 2;
+    item.points.push(points);
+    scene.add(points);
+  }
+  if (change.arrow) {
+    const z = item.box.max.z + 0.06;
+    const from = new THREE.Vector3(change.arrow.from[0], change.arrow.from[1], z);
+    const to = new THREE.Vector3(change.arrow.to[0], change.arrow.to[1], z);
+    item.arrow = makeArrow(from, to);
+    scene.add(item.arrow);
+  }
+  item.anchor = new THREE.Vector3((item.box.min.x + item.box.max.x) / 2, (item.box.min.y + item.box.max.y) / 2,
+                                  Math.min(item.box.max.z, floorZ + 1.45) + 0.12);
+  changeObjects.push(item);
+}
+document.getElementById("loading").remove();
+
+// ---------- labels in 3D ----------
+const labelLayer = document.getElementById("labels");
+for (const item of changeObjects) {
+  if (item.change.type === "small_changes") continue;
+  const tag = document.createElement("button");
+  tag.className = "tag";
+  tag.dataset.kind = item.change.type;
+  tag.textContent = `${item.change.id} ${item.change.display_name ?? item.change.label ?? ""}`;
+  tag.addEventListener("click", () => select(item.change.id, true));
+  labelLayer.appendChild(tag);
+  item.tag = tag;
+}
+const landmarkTags = DATA.landmarks.map((landmark) => {
+  const el = document.createElement("div");
+  el.className = "lm";
+  el.textContent = landmark.name.replace(/ at \(.*\)$/, "");
+  labelLayer.appendChild(el);
+  return { el, at: new THREE.Vector3(landmark.centroid[0], landmark.centroid[1], Math.min(landmark.top, floorZ + 1.3)) };
+});
+
+const tmp = new THREE.Vector3();
+function place(el, at) {
+  tmp.copy(at).project(camera);
+  const visible = tmp.z < 1 && tmp.z > -1 && Math.abs(tmp.x) < 1.05 && Math.abs(tmp.y) < 1.05 && at.z <= cutPlane.constant + 0.15;
+  el.style.display = visible ? "" : "none";
+  if (visible) {
+    el.style.left = `${(tmp.x * 0.5 + 0.5) * stage.clientWidth}px`;
+    el.style.top = `${(-tmp.y * 0.5 + 0.5) * stage.clientHeight}px`;
+  }
+}
+
+// ---------- controls ----------
+let scanMode = "after";
+function setScan(mode) {
+  scanMode = mode;
+  for (const key of ["before", "after", "both"]) {
+    document.getElementById(`scan-${key}`).setAttribute("aria-pressed", String(key === mode));
+  }
+  if (roomPoints.before) roomPoints.before.visible = mode !== "after";
+  if (roomPoints.after) roomPoints.after.visible = mode !== "before";
+}
+for (const key of ["before", "after", "both"]) {
+  document.getElementById(`scan-${key}`).addEventListener("click", () => setScan(key));
+}
+const cut = document.getElementById("cut");
+function setCut() {
+  cutPlane.constant = floorZ + Number(cut.value);
+  document.getElementById("cut-value").textContent = `${Number(cut.value).toFixed(2)} m`;
+}
+cut.addEventListener("input", setCut);
+document.getElementById("fade").addEventListener("change", (event) => {
+  for (const p of Object.values(roomPoints)) {
+    p.material.opacity = event.target.checked ? 0.18 : 1;
+    p.material.depthWrite = !event.target.checked;
+  }
+});
+document.getElementById("furniture").addEventListener("change", (event) => {
+  for (const t of landmarkTags) t.el.hidden = !event.target.checked;
+});
+
+function homeView() {
+  // From the entrance end, looking down towards the window wall.
+  return { target: centre.clone(), position: new THREE.Vector3(centre.x + 1.6, hi[1] + 0.6, floorZ + 4.2) };
+}
+let tween = null;
+function flyTo(target, position) {
+  if (reduceMotion) {
+    controls.target.copy(target);
+    camera.position.copy(position);
+    return;
+  }
+  tween = { t0: performance.now(), from: { target: controls.target.clone(), position: camera.position.clone() },
+            to: { target, position } };
+}
+document.getElementById("reset").addEventListener("click", () => { select(null); const h = homeView(); flyTo(h.target, h.position); });
+
+// ---------- side panel ----------
+const list = document.getElementById("list");
+const cards = new Map();
+for (const item of changeObjects) {
+  const change = item.change;
+  const card = document.createElement("article");
+  card.className = "card";
+  card.tabIndex = 0;
+  card.dataset.kind = change.type;
+  card.innerHTML = `
+    <div class="top"><span class="chip">${change.id}</span><h3></h3><span class="kind">${KIND[change.type].label}</span></div>
+    ${change.label && !change.label_confident ? '<span class="flag">label uncertain: the two models disagree</span>' : ""}
+    <p class="desc"></p>
+    <div class="detail"></div>`;
+  card.querySelector("h3").textContent = change.title;
+  card.querySelector(".desc").textContent = change.description;
+  const detail = card.querySelector(".detail");
+  if (change.photos) {
+    // only the photos this change has (a removed object has no "after" photo)
+    const sides = [["before", "Before · scan 1", "first"], ["after", "After · scan 2", "second"]]
+      .filter(([side]) => change.photos[side]);
+    const note = "matched" in change.photos
+      ? `Filled: where it is in that photo. Dashed: where it is in the other recording.${change.photos.matched ? "" : " The two photos are from different viewpoints."}`
+      : "Outlined: the object in that recording.";
+    detail.insertAdjacentHTML("beforeend", `
+      <div class="photos">
+        ${sides.map(([side, caption]) => `<figure><img alt="" loading="lazy" data-src="${change.photos[side]}"><figcaption>${caption}</figcaption></figure>`).join("")}
+      </div>
+      <p class="note">${note}</p>`);
+    detail.querySelectorAll("img").forEach((img, k) => { img.alt = `${change.title}, ${sides[k][2]} recording`; });
+  }
+  if (change.facts && change.facts.length) {
+    const table = document.createElement("table");
+    table.className = "facts";
+    for (const [key, value] of change.facts) {
+      const row = table.insertRow();
+      row.insertCell().textContent = key;
+      row.insertCell().textContent = value;
+    }
+    detail.appendChild(table);
+  }
+  card.addEventListener("click", () => select(change.id, true));
+  card.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(change.id, true); } });
+  card.addEventListener("mouseenter", () => highlight(change.id));
+  card.addEventListener("mouseleave", () => highlight(selected));
+  list.appendChild(card);
+  cards.set(change.id, card);
+}
+
+let selected = null;
+function highlight(id) {
+  for (const item of changeObjects) {
+    const on = id === null || item.change.id === id;
+    for (const p of item.points) { p.material.opacity = on ? 1 : 0.22; p.material.size = on && id ? 0.045 : 0.036; }
+    if (item.arrow) item.arrow.visible = on;
+    if (item.tag) { item.tag.classList.toggle("dim", !on); item.tag.classList.toggle("sel", id !== null && item.change.id === id); }
+  }
+}
+function select(id, fly = false) {
+  selected = selected === id ? null : id;
+  for (const [key, card] of cards) {
+    const on = key === selected;
+    card.classList.toggle("sel", on);
+    if (on) {
+      for (const img of card.querySelectorAll("img[data-src]")) { img.src = img.dataset.src; img.removeAttribute("data-src"); }
+      card.scrollIntoView({ block: "nearest", behavior: reduceMotion ? "auto" : "smooth" });
+    }
+  }
+  highlight(selected);
+  if (selected && fly) {
+    const item = changeObjects.find((o) => o.change.id === selected);
+    const target = item.box.getCenter(new THREE.Vector3());
+    const size = Math.max(item.box.getSize(new THREE.Vector3()).length(), 0.8);
+    const dir = camera.position.clone().sub(controls.target).normalize();
+    dir.z = Math.max(dir.z, 0.55);
+    dir.normalize();
+    flyTo(target, target.clone().add(dir.multiplyScalar(size * 1.6 + 1.2)));
+  }
+}
+document.addEventListener("keydown", (event) => { if (event.key === "Escape" && selected) select(selected); });
+
+// ---------- header, legend, about ----------
+document.getElementById("summary").textContent = DATA.summary;
+if (DATA.recordings) {
+  document.getElementById("subtitle").textContent =
+    `${DATA.recordings.before} → ${DATA.recordings.after}: two recordings of one space, aligned and compared voxel by voxel`;
+}
+const counts = {};
+for (const c of DATA.changes) counts[c.type] = (counts[c.type] || 0) + 1;
+document.getElementById("stats").innerHTML =
+  `<span class="stat"><b>${counts.moved || 0}</b> moved</span>` +
+  `<span class="stat"><b>${counts.shifted || 0}</b> nudged</span>` +
+  `<span class="stat"><b>${(counts.removed || 0) + (counts.added || 0)}</b> left/appeared</span>` +
+  `<span class="stat"><b>${counts.depth_only || 0}</b> depth-only</span>`;
+document.getElementById("legend").innerHTML = [
+  ["--old", "position in scan 1"], ["--new", "position in scan 2"], ["--shift", "nudged"],
+  ["--edge", "furniture edge"], ["--depth", "depth-only"], ["--arrow", "move"],
+].map(([token, text]) => `<span><i class="swatch" data-token="${token}"></i>${text}</span>`).join("");
+function paintLegend() {
+  for (const s of document.querySelectorAll(".swatch")) s.style.background = css(s.dataset.token);
+}
+const about = document.getElementById("about");
+const steps = [
+  "Step 1 – visibility-aware voxel change map (5 cm voxels, ray casting; no learned model)",
+  "Step 2 – grouping into objects and move matching (shape, height, colour; Hungarian assignment)",
+  "Step 3 – open-vocabulary labels: SAM 2.1 masks, Florence-2 names, SigLIP 2 cross-check, photo check in the other recording",
+  "Step 4 – landmarks (Florence-2 <OD> + SAM 2.1) and template sentences from measured numbers; colour words from SmolVLM2-500M",
+  "No model was trained or fine-tuned and nothing was labelled by hand.",
+];
+about.innerHTML = steps.map((s) => `<li>${s}</li>`).join("") +
+  `<li>${DATA.conventions.left_right[0].toUpperCase() + DATA.conventions.left_right.slice(1)} for left/right; distances ${DATA.conventions.distances}.</li>` +
+  Object.entries(DATA.pipeline).map(([k, v]) => `<li><code>${k}: ${v.slice(0, 16)}…</code></li>`).join("");
+
+// ---------- loop ----------
+function resize() {
+  const w = stage.clientWidth, h = stage.clientHeight;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / Math.max(h, 1);
+  camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(stage);
+const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+function frame(now) {
+  if (tween) {
+    const t = Math.min((now - tween.t0) / 650, 1), k = ease(t);
+    controls.target.lerpVectors(tween.from.target, tween.to.target, k);
+    camera.position.lerpVectors(tween.from.position, tween.to.position, k);
+    if (t === 1) tween = null;
+  }
+  controls.update();
+  renderer.render(scene, camera);
+  for (const item of changeObjects) if (item.tag) place(item.tag, item.anchor);
+  if (document.getElementById("furniture").checked) for (const t of landmarkTags) place(t.el, t.at);
+  requestAnimationFrame(frame);
+}
+
+const home = homeView();
+controls.target.copy(home.target);
+camera.position.copy(home.position);
+setScan("after");
+setCut();
+resize();
+applyTheme();
+paintLegend();
+for (const tag of document.querySelectorAll(".tag")) tag.style.setProperty("--kind", css(KIND[tag.dataset.kind].token));
+const retheme = () => { applyTheme(); paintLegend(); for (const tag of document.querySelectorAll(".tag")) tag.style.setProperty("--kind", css(KIND[tag.dataset.kind].token)); };
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change", retheme);
+new MutationObserver(retheme).observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+requestAnimationFrame(frame);
+</script>
+</body>
+</html>

@@ -10,56 +10,75 @@
   "approach": "voxel_diff",
   "python": "3.12.3",
   "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.36",
+  "profile": {
+    "name": "room",
+    "file": "navdelta/configs/room.toml",
+    "reason": "auto: camera path spans 4.7 m (<= 10 m)",
+    "sha256": "ea6d0f06b8bc77ee7adf5984d017e9cf87490a19ef3599e58818c729c2c33a50"
+  },
   "stages": [
     {
       "stage": "alignment.align",
-      "seconds": 163.9
+      "seconds": 155.4,
+      "gpu_peak_gb": 0.1
     },
     {
       "stage": "alignment.qa_overlays",
-      "seconds": 3.7
+      "seconds": 3.6,
+      "gpu_peak_gb": 0.1
     },
     {
       "stage": "alignment.validate",
-      "seconds": 7.2
+      "seconds": 7.2,
+      "gpu_peak_gb": 0.1
     },
     {
       "stage": "change_map",
-      "seconds": 48.3
+      "seconds": 48.4,
+      "gpu_peak_gb": 0.1
     },
     {
       "stage": "qa_regions",
-      "seconds": 10.2
+      "seconds": 10.2,
+      "gpu_peak_gb": 0.1
     },
     {
       "stage": "objects",
-      "seconds": 18.1
+      "seconds": 18.4,
+      "gpu_peak_gb": 0.1
     },
     {
       "stage": "qa_objects",
-      "seconds": 8.1
+      "seconds": 8.1,
+      "gpu_peak_gb": 0.1
     },
     {
       "stage": "labels",
-      "seconds": 151.0
+      "seconds": 152.5,
+      "gpu_peak_gb": 2.75
     },
     {
       "stage": "landmarks",
-      "seconds": 188.2
+      "seconds": 191.4,
+      "gpu_peak_gb": 2.66
     },
     {
       "stage": "colours",
-      "seconds": 27.6
+      "seconds": 27.9,
+      "gpu_peak_gb": 1.58
     },
     {
       "stage": "describe",
-      "seconds": 0.1
+      "seconds": 0.2,
+      "gpu_peak_gb": 0.1
     },
     {
       "stage": "package",
-      "seconds": 13.8
+      "seconds": 13.9,
+      "gpu_peak_gb": 0.1
     }
   ],
+  "total_seconds": 637.2,
   "result_hashes": {
     "alignment/Myroomesh2_to_Myroomesh1_transform.json": "4c77cae8fc8b70e98f42be08422f1f37e6b11b5683fa0ca222964313270b4bf3",
     "alignment/Myroomesh1_aligned_poses.jsonl": "a23ea8ce8032da800217f02d10826a904c5d74adaadc2be1bf243e9cd6afe299",

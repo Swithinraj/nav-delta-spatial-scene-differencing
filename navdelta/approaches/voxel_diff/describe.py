@@ -45,6 +45,11 @@ ROTATION_ROUND_DEG = 5
 ITEM_COLUMN_SHARE = 0.5          # landmark is an item on furniture: half its floor plan inside it ...
 ITEM_RAISED_M = 0.30             # ... and its bottom at least this far above the furniture's bottom
 
+# Scale profile (navdelta/configs/*.toml): the values above are the room profile; a large space
+# overrides some of them. Applied before anything below derives from them.
+from navdelta import config  # noqa: E402
+PROFILE_SETTINGS = config.apply(globals(), "voxel_diff.describe")
+
 
 def singular(word: str) -> str:
     return word[:-1] if len(word) > 3 and word.endswith("s") and not word.endswith("ss") else word
@@ -67,6 +72,16 @@ def plural(count: int, one: str, many: str) -> str:
     return f"{count} {one if count == 1 else many}"
 
 
+
+def floor_outline(points: np.ndarray):
+    """Convex floor-plan outline of a landmark, or None when its columns are all in one line
+    (a one-voxel-wide rail or shelf edge holds no items)."""
+    columns = np.unique(points[:, :2].round(4), axis=0)
+    try:
+        return Delaunay(columns)
+    except Exception:
+        return None
+
 class Room:
     """Voxel geometry, walls named relative to the window, and landmarks."""
 
@@ -86,12 +101,13 @@ class Room:
         # furniture's top is hidden exactly where items stand on it, so the test is
         # containment: most of the item's floor plan lies inside the larger
         # landmark's floor-plan outline (convex hull) and the item starts clearly higher.
-        outlines = {l["id"]: Delaunay(np.unique(l["points"][:, :2].round(4), axis=0)) for l in self.landmarks}
+        outlines = {l["id"]: floor_outline(l["points"]) for l in self.landmarks}
         for landmark in self.landmarks:
             columns = np.unique(landmark["points"][:, :2].round(4), axis=0)
             bottom = landmark["points"][:, 2].min()
             hosts = [other for other in self.landmarks
                      if other["voxels"] > landmark["voxels"]
+                     and outlines[other["id"]] is not None
                      and (outlines[other["id"]].find_simplex(columns) >= 0).mean() >= ITEM_COLUMN_SHARE
                      and bottom - other["points"][:, 2].min() >= ITEM_RAISED_M
                      and self.bottom_above_floor(landmark["points"]) > ON_FLOOR_M]

@@ -1,0 +1,169 @@
+# Profile "room": a single room or small apartment, filmed with a phone (up to ~10 m across).
+# These are the values every stage was developed and validated with on the provided recordings;
+# they equal the constants in the code (`python -m navdelta.config --check`).
+# large_space.toml sets the same keys for warehouses, halls and open-plan floors.
+
+# ---------------------------------------------------------------- approach 1: voxel_diff
+[voxel_diff.change_map]
+VOXEL_M = 0.05                    # grid cell
+DEPTH_STRIDE = 2                  # every 2nd depth pixel is ray-cast
+DEPTH_MAX_M = 5.0                 # depth used up to this range (phone LiDAR is reliable to ~5 m)
+CARVE_MARGIN_M = 0.10             # free space stops this far short of a surface ...
+CARVE_MARGIN_PER_M = 0.01         # ... plus this much per metre of range
+PLANE_DISTANCE_M = 0.05           # half-thickness of a wall / floor slab
+MIN_PLANE_VOXELS = 2000           # ~5 m^2 of wall at 5 cm
+MIN_PLANE_COMPONENT_VOXELS = 500
+WALL_MIN_HEIGHT_M = 1.5
+HORIZONTAL_PLANE_Z_TOLERANCE_M = 0.20
+MIN_SHEET_VOXELS = 150            # curtains / doors
+SHEET_MIN_HEIGHT_M = 1.0
+SHEET_EXTENT_MARGIN_M = 0.20
+
+[voxel_diff.objects]
+OBJECT_MAX_FOOTPRINT_M = 1.2      # a movable object is at most chair-sized
+OBJECT_MAX_HEIGHT_M = 1.5
+PANEL_MAX_THICKNESS_M = 0.15
+PANEL_COPLANAR_M = 0.10
+SHEET_ATTACH_TOLERANCE_M = 0.10
+SHEET_EXTENT_MARGIN_M = 0.20
+SHIFT_RANGE_M = 0.10
+SHIFT_STEP_M = 0.05
+FIT_TOLERANCE_M = 0.075
+HEIGHT_SCALE_M = 0.30
+PATH_SAMPLE_M = 0.025
+FRAGMENT_MAX_VOXELS = 27          # smaller regions (under a 15 cm cube) are listed as fragments, not matched
+
+[voxel_diff.landmarks]
+FRAME_STRIDE = 3
+MIN_LANDMARK_VOXELS = 40          # ~0.1 m^2 at 5 cm
+MAX_LANDMARK_EXTENT_M = 3.0
+
+[voxel_diff.describe]
+NEXT_TO_M = 0.25
+NEAR_M = 0.60
+RELATION_CHANGE_M = 0.25
+RELATION_RANGE_M = 1.0
+ON_FLOOR_M = 0.20
+ELEVATED_M = 0.60
+SUPPORT_BELOW_M = 0.25
+TOUCH_M = 0.10
+AGAINST_WALL_M = 0.50
+
+[voxel_diff.package]
+ROOM_VOXEL_M = 0.02               # point spacing of the room in the 3D viewer
+VIEW_DISTANCE_SCALE_M = 0.6
+
+# ---------------------------------------------------------------- approach 2: scene_graph
+[scene_graph.objects]
+MIN_OBSERVATIONS = 2
+MERGE_SIZE_RATIO = 1.0e9                 # off: a room holds few identical objects side by side
+VOXEL_M = 0.05
+NEXT_TO_M = 0.30
+ON_GAP_M = 0.15
+
+[scene_graph.diff]
+VOXEL_M = 0.05
+SEE_PAST_M = 0.10                 # the other depth must lie this far behind a point to call it empty ...
+SEE_PAST_PER_M = 0.0              # ... plus this much per metre of range
+SURFACE_M = 0.10
+SURFACE_PER_M = 0.0
+MIN_CHANGE_SIZE_M = 0.15
+MIN_CHANGE_OBS = 3
+MOVE_SEM = 0.70
+GROUP_GAP_M = 0.25                # gone / appeared pieces closer than this are one object
+LABEL_BONUS = 0.10
+GONE_MIN = 0.50                   # share of a node's observed points seen empty to call it gone
+MOVE_MAX_M = 1.0e9                # no limit inside a room
+
+[scene_graph.describe]
+VOXEL_M = 0.05
+LANDMARK_MIN_SIZE_M = 0.5
+LANDMARK_RANGE_M = 1.5
+LANDMARK_CHANGE_M = 0.25
+
+# ---------------------------------------------------------------- approach 3: loop_outliers
+[loop_outliers.mine]
+INLIER_M = 0.10                   # static: a match's two ends agree within max(10 cm, 3 % of depth)
+INLIER_PER_M = 0.03
+OUTLIER_M = 0.25                  # an outlier: ends further apart than this ...
+OUTLIER_PER_M = 0.0               # ... plus this much per metre of depth
+SEE_PAST_M = 0.10                 # the other video's depth lies this far behind a point: empty ...
+SEE_PAST_PER_M = 0.0              # ... plus this much per metre of range
+SURFACE_M = 0.10
+SURFACE_PER_M = 0.0
+RANSAC_M = 0.08                   # one object's matches agree on its motion to 8 cm
+MIN_MATCHES = 25
+MAX_EXTENT_M = 2.5
+CELL_M = 0.10
+MIN_EVIDENCE = 20
+EXPLAINED_M = 0.20
+ABSORB_M = 0.50                   # removed / added pieces this close to a move are part of it
+
+[loop_outliers.segment]
+PAIR_SEM = 0.75                   # a removed and an added change this alike are one moved object
+PAIR_SIZE_RATIO = 2.0
+ALONE_MIN_MATCHES = 60            # an uncorroborated removed / added change needs this much evidence
+ALONE_MIN_PAIRS = 4
+
+# ---------------------------------------------------------------- shared reconstruction (approaches 2-4)
+[recon.reconstruct]
+KEYFRAME_EVERY = 2
+BASELINE_M = 0.30                 # preferred stereo baseline for MASt3R depth
+MIN_BASELINE_M = 0.10
+PARTNER_WINDOW = 8
+MV_ABS = 0.05                     # multi-view depth agreement: max(5 cm, 5 %)
+RANSAC_M = 0.08                   # cross-video pair verification
+PAIR_GATE_M = 0.75                # tracking drift between the videos is tens of cm
+STEREO_GATE_M = 0.10
+
+[recon.reconstruct_rgbd]          # approach 4: the recording's depth maps instead of MASt3R depth
+SENSOR_DEPTH_RANGE_M = [0.25, 5.0]   # phone LiDAR is reliable to ~5 m
+SENSOR_EDGE_M = 0.05              # depth edges ("flying pixels"): 3x3 spread above 5 cm + 2 %
+SENSOR_EDGE_PER_M = 0.02
+SIGMA_SCALE = 0.005               # measured depth: its scale is kept
+RANSAC_M = 0.05                   # tighter 3D-3D pair verification
+STEREO_GATE_M = 0.06
+
+# ---------------------------------------------------------------- approach 4: rgbd_fusion
+# Each stage starts from approach 2's / 3's values for this profile; only the keys below differ.
+[rgbd_fusion.diff]
+SEE_PAST_M = 0.08                 # sensor depth: tighter, range-scaled gates
+SEE_PAST_PER_M = 0.01
+SURFACE_M = 0.08
+SURFACE_PER_M = 0.01
+
+[rgbd_fusion.mine]
+INLIER_M = 0.06
+INLIER_PER_M = 0.02
+OUTLIER_M = 0.25                  # as with MASt3R depth: 15 cm gave 15 candidates instead of 6 here
+SEE_PAST_M = 0.08
+SEE_PAST_PER_M = 0.01
+SURFACE_M = 0.08
+SURFACE_PER_M = 0.01
+RANSAC_M = 0.05
+
+[rgbd_fusion.segment]
+ALONE_MIN_MATCHES = 0             # corroboration is decided in the fuse stage
+ALONE_MIN_PAIRS = 0
+
+[rgbd_fusion.fuse]
+VOXEL_M = 0.05
+ASSOC_M = 0.15                    # an outlier change whose outline lies within 15 cm of a graph object ...
+ASSOC_SHARE = 0.30                # ... with 30 % of its points is that object
+MOVE_MIN_M = 0.20
+TURN_MIN_DEG = 30.0
+GRAPH_ALONE_EMPTY = 0.0           # scene graph alone: kept as approach 2 keeps it
+GRAPH_ALONE_OBS = 0
+GRAPH_ALONE_SEM = 0.0
+GRAPH_ALONE_ROTATED = true
+ALONE_MIN_MATCHES = 60            # outliers alone: approach 3's corroboration rule
+ALONE_MIN_PAIRS = 4
+VETO_PRESENT = 0.5                # outliers alone, on an object the graph sees unchanged: dropped
+NEXT_TO_M = 0.30
+ON_GAP_M = 0.15
+LANDMARK_MIN_SIZE_M = 0.5
+LANDMARK_RANGE_M = 1.5
+LANDMARK_CHANGE_M = 0.25
+
+[rgbd_fusion.package]
+ROOM_VOXEL_M = 0.02

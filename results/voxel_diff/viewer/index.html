@@ -558,15 +558,18 @@ for (const item of changeObjects) {
   card.querySelector(".desc").textContent = change.description;
   const detail = card.querySelector(".detail");
   if (change.photos) {
+    // only the photos this change has (a removed object has no "after" photo)
+    const sides = [["before", "Before · scan 1", "first"], ["after", "After · scan 2", "second"]]
+      .filter(([side]) => change.photos[side]);
+    const note = "matched" in change.photos
+      ? `Filled: where it is in that photo. Dashed: where it is in the other recording.${change.photos.matched ? "" : " The two photos are from different viewpoints."}`
+      : "Outlined: the object in that recording.";
     detail.insertAdjacentHTML("beforeend", `
       <div class="photos">
-        <figure><img alt="" loading="lazy" data-src="${change.photos.before}"><figcaption>Before · scan 1</figcaption></figure>
-        <figure><img alt="" loading="lazy" data-src="${change.photos.after}"><figcaption>After · scan 2</figcaption></figure>
+        ${sides.map(([side, caption]) => `<figure><img alt="" loading="lazy" data-src="${change.photos[side]}"><figcaption>${caption}</figcaption></figure>`).join("")}
       </div>
-      <p class="note">Filled: where it is in that photo. Dashed: where it is in the other recording.${change.photos.matched ? "" : " The two photos are from different viewpoints."}</p>`);
-    const [before, after] = detail.querySelectorAll("img");
-    before.alt = `${change.title}, first recording`;
-    after.alt = `${change.title}, second recording`;
+      <p class="note">${note}</p>`);
+    detail.querySelectorAll("img").forEach((img, k) => { img.alt = `${change.title}, ${sides[k][2]} recording`; });
   }
   if (change.facts && change.facts.length) {
     const table = document.createElement("table");
