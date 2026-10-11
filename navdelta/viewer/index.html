@@ -350,6 +350,50 @@ const ROLE_TOKEN = {
   old: "--old", new: "--new", shift_old: "--shift", shift_new: "--shift", surface: "--surface",
   landmark_change: "--edge", depth_only: "--depth", small: "--muted",
 };
+// What the header and "How this was made" say: one entry per approach (changes.js names it).
+const APPROACH = {
+  voxel_diff: {
+    name: "Approach 1 · voxel_diff",
+    sub: "aligned and compared voxel by voxel",
+    steps: [
+      "Step 1 – visibility-aware voxel change map (5 cm voxels, ray casting; no learned model)",
+      "Step 2 – grouping into objects and move matching (shape, height, colour; Hungarian assignment)",
+      "Step 3 – open-vocabulary labels: SAM 2.1 masks, Florence-2 names, SigLIP 2 cross-check, photo check in the other recording",
+      "Step 4 – landmarks (Florence-2 <OD> + SAM 2.1) and template sentences from measured numbers; colour words from SmolVLM2-500M",
+    ],
+  },
+  scene_graph: {
+    name: "Approach 2 · scene_graph",
+    sub: "a 3D scene graph per recording, compared object by object",
+    steps: [
+      "Shared reconstruction – MASt3R depth and matches with the phones' own tracking, both recordings in one frame",
+      "Step 1 – objects: Florence-2 boxes and a SAM 2.1 point grid (SigLIP 2 names over ScanNet200), lifted to 3D nodes with 'on' / 'next to' edges",
+      "Step 2 – diff: every node checked against the other recording's depth; gone only if its spot was seen through, then gone ↔ appeared matched as moves",
+      "Step 3 – sentences from the graph relations and measured distances to unchanged objects",
+    ],
+  },
+  loop_outliers: {
+    name: "Approach 3 · loop_outliers",
+    sub: "one loop closure between them; the matches it rejects are the changes",
+    steps: [
+      "Shared reconstruction – MASt3R depth and matches with the phones' own tracking; the cross-video pose graph is the loop closure",
+      "Step 1 – mine: cross-video matches whose two ends disagree are outliers; which end now sees empty space tells moved, vanished or appeared; RANSAC per object for the motion",
+      "Step 2 – SAM 2.1 outline and SigLIP 2 name, only for the changed objects",
+      "Step 3 – where it is: Florence-2 + SAM 2.1 on the same photos, relations to unchanged objects",
+    ],
+  },
+  rgbd_fusion: {
+    name: "Approach 4 · rgbd_fusion",
+    sub: "scene graphs and loop-closure outliers on the recordings' own depth, fused",
+    steps: [
+      "RGB-D reconstruction – the phone's measured depth (flying pixels removed) with MASt3R matches and the phones' own tracking",
+      "Detector A – scene graphs (approach 2): objects, each checked against the other recording's depth",
+      "Detector B – loop-closure outliers (approach 3): rejected matches, motion by RANSAC, SAM 2.1 outline, SigLIP 2 name",
+      "Fuse – the two detectors' findings joined end by end; a change both find is confirmed, with the motion measured from its own features",
+    ],
+  },
+};
+const METHOD = APPROACH[DATA.approach ?? "voxel_diff"] ?? APPROACH.voxel_diff;
 
 // ---------- decoding ----------
 function bytes(b64) {
@@ -458,8 +502,9 @@ for (const change of DATA.changes) {
     item.arrow = makeArrow(from, to);
     scene.add(item.arrow);
   }
+  // the tag sits on top of the object, but below the default cut so tall things (a shelf) keep theirs
   item.anchor = new THREE.Vector3((item.box.min.x + item.box.max.x) / 2, (item.box.min.y + item.box.max.y) / 2,
-                                  Math.min(item.box.max.z, floorZ + 1.45) + 0.12);
+                                  Math.min(item.box.max.z, floorZ + 1.3) + 0.12);
   changeObjects.push(item);
 }
 document.getElementById("loading").remove();
@@ -551,7 +596,7 @@ for (const item of changeObjects) {
   card.dataset.kind = change.type;
   card.innerHTML = `
     <div class="top"><span class="chip">${change.id}</span><h3></h3><span class="kind">${KIND[change.type].label}</span></div>
-    ${change.label && !change.label_confident ? '<span class="flag">label uncertain: the two models disagree</span>' : ""}
+    ${change.label && change.label_confident === false ? '<span class="flag">label uncertain: the two models disagree</span>' : ""}
     <p class="desc"></p>
     <div class="detail"></div>`;
   card.querySelector("h3").textContent = change.title;
@@ -623,35 +668,36 @@ document.addEventListener("keydown", (event) => { if (event.key === "Escape" && 
 
 // ---------- header, legend, about ----------
 document.getElementById("summary").textContent = DATA.summary;
-if (DATA.recordings) {
-  document.getElementById("subtitle").textContent =
-    `${DATA.recordings.before} → ${DATA.recordings.after}: two recordings of one space, aligned and compared voxel by voxel`;
-}
+document.title = `NavDelta Room Diff · ${METHOD.name}`;
+document.getElementById("subtitle").textContent = DATA.recordings
+  ? `${METHOD.name} · ${DATA.recordings.before} → ${DATA.recordings.after}: ${METHOD.sub}`
+  : `${METHOD.name}: two recordings of one space, ${METHOD.sub}`;
 const counts = {};
 for (const c of DATA.changes) counts[c.type] = (counts[c.type] || 0) + 1;
-document.getElementById("stats").innerHTML =
-  `<span class="stat"><b>${counts.moved || 0}</b> moved</span>` +
-  `<span class="stat"><b>${counts.shifted || 0}</b> nudged</span>` +
-  `<span class="stat"><b>${(counts.removed || 0) + (counts.added || 0)}</b> left/appeared</span>` +
-  `<span class="stat"><b>${counts.depth_only || 0}</b> depth-only</span>`;
+// only the kinds this result has ("moved" always, so the header never reads empty)
+document.getElementById("stats").innerHTML = [
+  ["moved", "moved"], ["shifted", "nudged"], ["removed", "left"], ["added", "appeared"],
+  ["changed_at_landmark", "at furniture"], ["depth_only", "depth-only"],
+].filter(([type]) => type === "moved" || counts[type])
+  .map(([type, text]) => `<span class="stat"><b>${counts[type] || 0}</b> ${text}</span>`).join("");
+const roles = new Set(DATA.changes.flatMap((c) => c.parts.map((p) => p.role)));
 document.getElementById("legend").innerHTML = [
-  ["--old", "position in scan 1"], ["--new", "position in scan 2"], ["--shift", "nudged"],
-  ["--edge", "furniture edge"], ["--depth", "depth-only"], ["--arrow", "move"],
-].map(([token, text]) => `<span><i class="swatch" data-token="${token}"></i>${text}</span>`).join("");
+  ["old", "--old", "position in scan 1"], ["new", "--new", "position in scan 2"], ["shift_old", "--shift", "nudged"],
+  ["landmark_change", "--edge", "furniture edge"], ["depth_only", "--depth", "depth-only"], ["surface", "--surface", "surface"],
+].filter(([role]) => roles.has(role))
+  .concat(DATA.changes.some((c) => c.arrow) ? [[null, "--arrow", "move"]] : [])
+  .map(([, token, text]) => `<span><i class="swatch" data-token="${token}"></i>${text}</span>`).join("");
 function paintLegend() {
   for (const s of document.querySelectorAll(".swatch")) s.style.background = css(s.dataset.token);
 }
+if (!DATA.landmarks.length) document.getElementById("furniture").closest("label").style.display = "none";
 const about = document.getElementById("about");
-const steps = [
-  "Step 1 – visibility-aware voxel change map (5 cm voxels, ray casting; no learned model)",
-  "Step 2 – grouping into objects and move matching (shape, height, colour; Hungarian assignment)",
-  "Step 3 – open-vocabulary labels: SAM 2.1 masks, Florence-2 names, SigLIP 2 cross-check, photo check in the other recording",
-  "Step 4 – landmarks (Florence-2 <OD> + SAM 2.1) and template sentences from measured numbers; colour words from SmolVLM2-500M",
-  "No model was trained or fine-tuned and nothing was labelled by hand.",
-];
-about.innerHTML = steps.map((s) => `<li>${s}</li>`).join("") +
-  `<li>${DATA.conventions.left_right[0].toUpperCase() + DATA.conventions.left_right.slice(1)} for left/right; distances ${DATA.conventions.distances}.</li>` +
-  Object.entries(DATA.pipeline).map(([k, v]) => `<li><code>${k}: ${v.slice(0, 16)}…</code></li>`).join("");
+const conventions = DATA.conventions;
+about.innerHTML = METHOD.steps.concat("No model was trained or fine-tuned and nothing was labelled by hand.")
+    .map((s) => `<li>${s.replace(/</g, "&lt;")}</li>`).join("") +
+  (DATA.models || []).map((m) => `<li><code>${m.id}</code> – ${m.use} (${m.license})</li>`).join("") +
+  (conventions ? `<li>${conventions.left_right[0].toUpperCase() + conventions.left_right.slice(1)} for left/right; distances ${conventions.distances}.</li>` : "") +
+  Object.entries(DATA.pipeline || {}).map(([k, v]) => `<li><code>${k}: ${v.slice(0, 16)}…</code></li>`).join("");
 
 // ---------- loop ----------
 function resize() {
@@ -662,9 +708,10 @@ function resize() {
 }
 new ResizeObserver(resize).observe(stage);
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-function frame(now) {
+function frame() {
   if (tween) {
-    const t = Math.min((now - tween.t0) / 650, 1), k = ease(t);
+    // the same clock as tween.t0: a frame's own timestamp can be older than the click that started it
+    const t = Math.min(Math.max((performance.now() - tween.t0) / 650, 0), 1), k = ease(t);
     controls.target.lerpVectors(tween.from.target, tween.to.target, k);
     camera.position.lerpVectors(tween.from.position, tween.to.position, k);
     if (t === 1) tween = null;
